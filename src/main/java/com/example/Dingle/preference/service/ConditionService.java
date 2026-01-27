@@ -16,7 +16,7 @@ public class ConditionService {
 
     public void register(ConditionRegisterDto request) {
         if (conditionRepository.existsByConditionName(request.getConditionName())) {
-            throw new BusinessException(BusinessErrorMessage.DUPLICATE_DISTRICT);
+            throw new BusinessException(BusinessErrorMessage.DUPLICATE_CONDITION);
         }
 
         conditionRepository.save(
