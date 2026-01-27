@@ -7,6 +7,7 @@ import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class DistrictService {
 
     private final DistrictRepository districtRepository;
 
+    @Transactional
     public void register(DistrictRegisterDto request) {
         if (districtRepository.existsByDistrictName(request.getDistrictName())) {
             throw new BusinessException(BusinessErrorMessage.DUPLICATE_DISTRICT);

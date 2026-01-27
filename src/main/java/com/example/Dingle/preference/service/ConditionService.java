@@ -7,6 +7,7 @@ import com.example.Dingle.preference.entity.Condition;
 import com.example.Dingle.preference.repository.ConditionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class ConditionService {
 
     private final ConditionRepository conditionRepository;
 
+    @Transactional
     public void register(ConditionRegisterDto request) {
         if (conditionRepository.existsByConditionName(request.getConditionName())) {
             throw new BusinessException(BusinessErrorMessage.DUPLICATE_CONDITION);
