@@ -1,4 +1,4 @@
-package com.example.Dingle.config;
+package com.example.Dingle.global.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
