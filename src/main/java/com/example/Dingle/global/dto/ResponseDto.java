@@ -2,8 +2,10 @@ package com.example.Dingle.global.dto;
 
 import com.example.Dingle.global.message.DefaultErrorMessage;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public class ResponseDto<T> {
 
     private boolean success;
