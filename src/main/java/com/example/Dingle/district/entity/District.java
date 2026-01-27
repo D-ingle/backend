@@ -2,12 +2,12 @@ package com.example.Dingle.district.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "districts")
 @Getter
-@Setter
+@NoArgsConstructor
 public class District {
 
     @Id
@@ -16,4 +16,8 @@ public class District {
 
     @Column(nullable = false)
     private String districtName;
+
+    public District(String name) {
+        this.districtName = name;
+    }
 }
