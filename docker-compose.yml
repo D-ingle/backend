@@ -1,13 +1,53 @@
+version: "3.8"
+
 services:
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    command:
+      # Docker 연동
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+
+      # EntryPoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+
+      # Let's Encrypt (HTTPS)
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.email=rhgmlwo11@gmail.com"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+
+      - "--log.level=INFO"
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+
   app:
     build: .
     image: dingle-app
-    ports:
-      - "8080:8080"
+    container_name: dingle-app
+    labels:
+      # HTTPS 라우터
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`d-home.o-r.kr`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=le"
+      - "traefik.http.services.app.loadbalancer.server.port=8080"
+
+      # HTTP → HTTPS 리다이렉트
+      - "traefik.http.routers.app-http.rule=Host(`d-home.o-r.kr`)"
+      - "traefik.http.routers.app-http.entrypoints=web"
+      - "traefik.http.routers.app-http.middlewares=redirect-https"
+      - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_URL}:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-
-volumes:
-  postgres_data:
