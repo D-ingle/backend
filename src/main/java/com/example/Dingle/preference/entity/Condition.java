@@ -2,12 +2,12 @@ package com.example.Dingle.preference.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "conditions")
 @Getter
-@Setter
+@NoArgsConstructor
 public class Condition {
 
     @Id
@@ -16,4 +16,8 @@ public class Condition {
 
     @Column(nullable = false)
     private String conditionName;
+
+    public Condition(String conditionName) {
+        this.conditionName = conditionName;
+    }
 }
