@@ -1,5 +1,7 @@
 package com.example.Dingle.user.service;
 
+import com.example.Dingle.global.exception.AuthException;
+import com.example.Dingle.global.message.AuthErrorMessage;
 import com.example.Dingle.user.dto.UserDTO;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.type.UserRole;
@@ -27,10 +29,8 @@ public class RegisterService {
         String phone = userDTO.getPhone();
         String email = userDTO.getEmail();
 
-        boolean isExist = userRepository.existsByUserId(userId);
-
-        if (isExist) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 userId 입니다.");
+        if (userRepository.existsByUserId(userId)) {
+            throw new AuthException(AuthErrorMessage.DUPLICATE_ID);
         }
 
         User data = new User();
