@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class DealRequestDto {
+public class DealRequestDTO {
     private DealType tradeType;
     private Long price;
     private Long deposit;

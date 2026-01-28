@@ -1,8 +1,8 @@
 package com.example.Dingle.district.controller;
 
-import com.example.Dingle.district.dto.request.DistrictRegisterDto;
+import com.example.Dingle.district.dto.request.DistrictRegisterDTO;
 import com.example.Dingle.district.service.DistrictService;
-import com.example.Dingle.global.dto.ResponseDto;
+import com.example.Dingle.global.dto.ResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +20,10 @@ public class DistrictController {
 
     @PostMapping("/register")
     @Operation(summary = "지역구 등록 API", description = "지역구를 추가합니다.")
-    public ResponseEntity<ResponseDto<Void>> registerDistrict(
-        @RequestBody DistrictRegisterDto request
+    public ResponseEntity<ResponseDTO<Void>> registerDistrict(
+        @RequestBody DistrictRegisterDTO request
     ) {
         districtService.register(request);
-        return ResponseEntity.ok(ResponseDto.success(null));
+        return ResponseEntity.ok(ResponseDTO.success(null));
     }
 }

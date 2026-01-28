@@ -1,6 +1,6 @@
 package com.example.Dingle.district.service;
 
-import com.example.Dingle.district.dto.request.DistrictRegisterDto;
+import com.example.Dingle.district.dto.request.DistrictRegisterDTO;
 import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
@@ -16,7 +16,7 @@ public class DistrictService {
     private final DistrictRepository districtRepository;
 
     @Transactional
-    public void register(DistrictRegisterDto request) {
+    public void register(DistrictRegisterDTO request) {
         if (districtRepository.existsByDistrictName(request.getDistrictName())) {
             throw new BusinessException(BusinessErrorMessage.DUPLICATE_DISTRICT);
         }

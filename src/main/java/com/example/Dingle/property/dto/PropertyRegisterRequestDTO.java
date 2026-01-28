@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class PropertyRegisterRequestDto {
+public class PropertyRegisterRequestDTO {
     private String appartmentName;
     private String address;
     private PropertyType propertyType;
@@ -29,5 +29,5 @@ public class PropertyRegisterRequestDto {
 
     private List<FacilityType> facilities;
     private List<OptionType> options;
-    private DealRequestDto deal;
+    private DealRequestDTO deal;
 }

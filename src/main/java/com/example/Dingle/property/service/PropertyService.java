@@ -4,8 +4,8 @@ import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
-import com.example.Dingle.property.dto.DealRequestDto;
-import com.example.Dingle.property.dto.PropertyRegisterRequestDto;
+import com.example.Dingle.property.dto.DealRequestDTO;
+import com.example.Dingle.property.dto.PropertyRegisterRequestDTO;
 import com.example.Dingle.property.entity.*;
 import com.example.Dingle.property.repository.*;
 import com.example.Dingle.property.type.FacilityType;
@@ -32,7 +32,7 @@ public class PropertyService {
     private final DistrictRepository districtRepository;
 
     @Transactional
-    public void register(PropertyRegisterRequestDto request) {
+    public void register(PropertyRegisterRequestDTO request) {
 
         Realtor realtor = realtorRepository.findById(1L)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.REALTOR_NOT_EXISTS));
@@ -63,7 +63,7 @@ public class PropertyService {
         saveFacilities(property, request.getFacilities());
     }
 
-    private void saveDeal(Property property, DealRequestDto deal) {
+    private void saveDeal(Property property, DealRequestDTO deal) {
         PropertyDeal entity = switch (deal.getTradeType()) {
             case SALE -> PropertyDeal.sale(property, deal.getPrice());
             case LEASE -> PropertyDeal.lease(property, deal.getPrice());
