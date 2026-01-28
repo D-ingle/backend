@@ -1,7 +1,7 @@
 package com.example.Dingle.preference.controller;
 
-import com.example.Dingle.global.dto.ResponseDto;
-import com.example.Dingle.preference.dto.request.ConditionRegisterDto;
+import com.example.Dingle.global.dto.ResponseDTO;
+import com.example.Dingle.preference.dto.request.ConditionRegisterDTO;
 import com.example.Dingle.preference.service.ConditionService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +20,10 @@ public class ConditionController {
 
     @PostMapping("/register")
     @Operation(summary = "선호 조건 등록 API", description = "선호 조건을 추가합니다.")
-    public ResponseEntity<ResponseDto<Void>> registerCondition(
-            @RequestBody ConditionRegisterDto request
+    public ResponseEntity<ResponseDTO<Void>> registerCondition(
+            @RequestBody ConditionRegisterDTO request
     ) {
         conditionService.register(request);
-        return ResponseEntity.ok(ResponseDto.success(null));
+        return ResponseEntity.ok(ResponseDTO.success(null));
     }
 }

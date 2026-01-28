@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class TestResponseDto {
+public class TestResponseDTO {
     private String message;
 }

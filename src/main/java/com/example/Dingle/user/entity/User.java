@@ -1,5 +1,7 @@
 package com.example.Dingle.user.entity;
 
+import com.example.Dingle.user.type.PreferredType;
+import com.example.Dingle.user.type.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 @Getter
 @Setter
-public class UserEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

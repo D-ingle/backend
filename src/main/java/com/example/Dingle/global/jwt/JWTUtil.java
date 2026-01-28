@@ -1,6 +1,6 @@
 package com.example.Dingle.global.jwt;
 
-import com.example.Dingle.user.entity.UserRole;
+import com.example.Dingle.user.type.UserRole;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

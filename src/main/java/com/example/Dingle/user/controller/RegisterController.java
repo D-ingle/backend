@@ -1,6 +1,6 @@
 package com.example.Dingle.user.controller;
 
-import com.example.Dingle.global.dto.ResponseDto;
+import com.example.Dingle.global.dto.ResponseDTO;
 import com.example.Dingle.user.dto.UserDTO;
 import com.example.Dingle.user.service.RegisterService;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,10 @@ public class RegisterController {
     }
 
     @PostMapping("/register/user")
-    public ResponseEntity<ResponseDto<Void>> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ResponseDTO<Void>> register(@RequestBody UserDTO userDTO) {
         registerService.registerUser(userDTO);
 
-        return ResponseEntity.ok(ResponseDto.success(null));
+        return ResponseEntity.ok(ResponseDTO.success(null));
     }
 
     @GetMapping("/auth/me")
