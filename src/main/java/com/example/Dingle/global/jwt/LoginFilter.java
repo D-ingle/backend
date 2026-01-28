@@ -1,7 +1,7 @@
 package com.example.Dingle.global.jwt;
 
 import com.example.Dingle.user.dto.CustomUserDetails;
-import com.example.Dingle.user.entity.UserRole;
+import com.example.Dingle.user.type.UserRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,8 +1,8 @@
 package com.example.Dingle.user.service;
 
 import com.example.Dingle.user.dto.UserDTO;
-import com.example.Dingle.user.entity.UserEntity;
-import com.example.Dingle.user.entity.UserRole;
+import com.example.Dingle.user.entity.User;
+import com.example.Dingle.user.type.UserRole;
 import com.example.Dingle.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,7 +33,7 @@ public class RegisterService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 userId 입니다.");
         }
 
-        UserEntity data = new UserEntity();
+        User data = new User();
 
         data.setUserId(userId);
         data.setPassword(bCryptPasswordEncoder.encode(password));

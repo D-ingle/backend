@@ -1,6 +1,6 @@
 package com.example.Dingle.user.dto;
 
-import com.example.Dingle.user.entity.UserRole;
+import com.example.Dingle.user.type.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 

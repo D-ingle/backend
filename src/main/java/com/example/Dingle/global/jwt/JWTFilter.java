@@ -1,8 +1,8 @@
 package com.example.Dingle.global.jwt;
 
 import com.example.Dingle.user.dto.CustomUserDetails;
-import com.example.Dingle.user.entity.UserEntity;
-import com.example.Dingle.user.entity.UserRole;
+import com.example.Dingle.user.entity.User;
+import com.example.Dingle.user.type.UserRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,12 +45,12 @@ public class JWTFilter extends OncePerRequestFilter {
         String userId = jwtUtil.getUserId(token);
         UserRole role = UserRole.valueOf(jwtUtil.getUserRole(token));
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(userId);
-        userEntity.setPassword("temppassword");
-        userEntity.setUserRole(role);
+        User user = new User();
+        user.setUserId(userId);
+        user.setPassword("temppassword");
+        user.setUserRole(role);
 
-        CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
 
