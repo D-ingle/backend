@@ -19,7 +19,7 @@ public class PropertyFacility {
     private Property property;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "option_id")
+    @JoinColumn(name = "facility_id")
     private Facility facility;
 
     public PropertyFacility(Property property, Facility facility) {

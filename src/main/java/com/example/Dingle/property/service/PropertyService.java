@@ -14,6 +14,7 @@ import com.example.Dingle.realtor.entity.Realtor;
 import com.example.Dingle.realtor.repository.RealtorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,10 +31,11 @@ public class PropertyService {
     private final RealtorRepository realtorRepository;
     private final DistrictRepository districtRepository;
 
+    @Transactional
     public void register(PropertyRegisterRequestDto request) {
 
         Realtor realtor = realtorRepository.findById(1L)
-                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.REALTOR_NOT_EXISTS));
 
         District district = districtRepository.findById(1L)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
@@ -42,14 +44,14 @@ public class PropertyService {
                 Property.builder()
                         .realtor(realtor)
                         .district(district)
-                        .appartmentName(request.getAppartmentName())
+                        .apartmentName(request.getAppartmentName())
                         .address(request.getAddress())
                         .exclusiveArea(request.getExclusiveArea())
                         .supplyArea(request.getSupplyArea())
                         .latitude(request.getLatitude())
                         .longitude(request.getLongitude())
                         .floor(request.getFloor())
-                        .totalFloor(request.getTotalFloors())
+                        .totalFloor(request.getTotalFloor())
                         .bedrooms(request.getBedrooms())
                         .bathrooms(request.getBathrooms())
                         .orientation(request.getOrientation())

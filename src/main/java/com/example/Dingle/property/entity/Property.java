@@ -33,7 +33,7 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
 
-    private String appartmentName;
+    private String apartmentName;
     private String address;
     private double latitude;
     private double longitude;

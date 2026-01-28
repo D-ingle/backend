@@ -5,17 +5,19 @@ import com.example.Dingle.property.type.FacilityType;
 import com.example.Dingle.property.type.OptionType;
 import com.example.Dingle.property.type.PropertyType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class PropertyRegisterRequestDto {
     private String appartmentName;
     private String address;
     private PropertyType propertyType;
 
     private int floor;
-    private int totalFloors;
+    private int totalFloor;
     private double exclusiveArea;
     private double supplyArea;
     private double latitude;
