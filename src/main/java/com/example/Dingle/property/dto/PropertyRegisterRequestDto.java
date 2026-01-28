@@ -18,6 +18,9 @@ public class PropertyRegisterRequestDto {
     private int totalFloors;
     private double exclusiveArea;
     private double supplyArea;
+    private double latitude;
+    private double longitude;
+
     private int bedrooms;
     private int bathrooms;
     private String orientation;

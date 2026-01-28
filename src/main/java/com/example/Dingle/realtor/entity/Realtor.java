@@ -20,9 +20,6 @@ public class Realtor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "realtor_id", unique = true)
-    private String realtorId;
-
     private String password;
     private String username;
     private String phone;
