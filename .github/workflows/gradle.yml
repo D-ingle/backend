@@ -31,9 +31,8 @@ jobs:
     
     # Gradle build (Test 제외)
     - name: Build with Gradle
-      uses: ./gradlew build
-      with:
-        arguments: clean build -x test
+      run: ./gradlew clean build -x test
+
 
     # Deploy
     - name: Deploy
