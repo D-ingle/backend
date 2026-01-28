@@ -4,8 +4,10 @@ import com.example.Dingle.user.dto.UserDTO;
 import com.example.Dingle.user.entity.UserEntity;
 import com.example.Dingle.user.entity.UserRole;
 import com.example.Dingle.user.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class RegisterService {
@@ -27,7 +29,9 @@ public class RegisterService {
 
         boolean isExist = userRepository.existsByUserId(userId);
 
-        if (isExist) { return; }
+        if (isExist) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 userId 입니다.");
+        }
 
         UserEntity data = new UserEntity();
 
