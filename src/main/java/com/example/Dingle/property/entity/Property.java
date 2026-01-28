@@ -35,16 +35,16 @@ public class Property {
 
     private String appartmentName;
     private String address;
-    private Double latitude;
-    private Double longitude;
+    private double latitude;
+    private double longitude;
 
-    private Double exclusiveArea;
-    private Double supplyArea;
+    private double exclusiveArea;
+    private double supplyArea;
 
-    private Integer floor;
-    private Integer totalFloor;
-    private Integer bedrooms;
-    private Integer bathrooms;
+    private int floor;
+    private int totalFloor;
+    private int bedrooms;
+    private int bathrooms;
     private String orientation;
 
     private LocalDateTime registeredAt;
