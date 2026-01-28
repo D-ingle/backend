@@ -33,4 +33,5 @@ public class UserEntity {
     private UserRole userRole;
 
     private LocalDateTime createdAt;
+    private LocalDateTime onboardedAt;
 }
