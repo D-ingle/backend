@@ -35,4 +35,5 @@ public class User {
     private UserRole userRole;
 
     private LocalDateTime createdAt;
+    private LocalDateTime onboardedAt;
 }
