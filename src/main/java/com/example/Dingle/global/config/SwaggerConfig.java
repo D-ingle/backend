@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .info(info())
                 .addServersItem(
                         new io.swagger.v3.oas.models.servers.Server()
-                                .url("https://d-home.o-r.kr/api/v1")
+                                .url("https://d-home.o-r.kr")
                 )
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
                 .components(new Components()
