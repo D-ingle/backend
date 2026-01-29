@@ -2,13 +2,13 @@ name: CI/CD
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ dev ]
   workflow_dispatch:
     inputs:
       branch:
         description: 'Branch to deploy'
         required: true
-        default: 'develop'
+        default: 'dev'
 
 concurrency:
   group: cicd-${{ github.ref_name }}
