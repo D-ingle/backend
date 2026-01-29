@@ -36,7 +36,7 @@ jobs:
           git pull origin dev
 
           echo "Docker Compose build & up"
-          docker compose up -d --build
+          sudo docker compose up -d --build
 
           echo "Deploy finished"
           EOF
