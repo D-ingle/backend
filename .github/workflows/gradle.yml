@@ -31,6 +31,9 @@ jobs:
           ssh ${{ secrets.SSH_USERNAME }}@13.125.14.182 << 'EOF'
           set -e
           cd /home/ubuntu/backend
+          
+          echo "권한 풀기"
+          sudo usermod -aG docker ubuntu
 
           echo "최신 코드 가져오기"
           git pull origin dev
