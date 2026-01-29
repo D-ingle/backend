@@ -29,14 +29,14 @@ jobs:
       - name: Deploy with docker-compose (EC2 build)
         run: |
           ssh ${{ secrets.SSH_USERNAME }}@13.125.14.182 << 'EOF'
-            set -e
-            cd /home/ubuntu/app
+          set -e
+          cd /home/ubuntu/backend
 
-            echo "최신 코드 가져오기"
-            git pull origin develop
+          echo "최신 코드 가져오기"
+          git pull origin develop
 
-            echo "Docker Compose build & up"
-            docker-compose up -d --build
+          echo "Docker Compose build & up"
+          docker-compose up -d --build
 
-            echo "Deploy finished"
+          echo "Deploy finished"
           EOF
