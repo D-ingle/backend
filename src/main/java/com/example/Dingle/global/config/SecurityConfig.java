@@ -38,8 +38,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
                 "http://localhost:3000",
                 "https://frontend-chi-black-73.vercel.app",
-                "https://d-home.o-r.kr",
-                "http://d-home.o-r.kr"
+                "https://d-home.o-r.kr"
         ));
 
         config.setAllowedMethods(List.of(
