@@ -22,7 +22,13 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     DUPLICATE_CONDITION(HttpStatus.BAD_REQUEST, "이미 등록된 선호 조건입니다."),
 
     // 공인중개사
-    REALTOR_NOT_EXISTS(HttpStatus.BAD_REQUEST, "등록되지 않은 공인중개사입니다.");
+    REALTOR_NOT_EXISTS(HttpStatus.BAD_REQUEST, "등록되지 않은 공인중개사입니다."),
+
+    // 매물
+    ALREADY_ZZIMED(HttpStatus.CONFLICT,"이미 찜한 매물입니다."),
+    PROPERTY_NOT_EXISTS(HttpStatus.NOT_FOUND, "매물을 찾을 수 없습니다."),
+    NOT_ZZIMED(HttpStatus.CONFLICT,"찜한 매물이 아닙니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;
