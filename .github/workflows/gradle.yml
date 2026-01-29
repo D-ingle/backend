@@ -33,7 +33,7 @@ jobs:
           cd /home/ubuntu/backend
 
           echo "최신 코드 가져오기"
-          git pull origin develop
+          git pull origin dev
 
           echo "Docker Compose build & up"
           docker-compose up -d --build
