@@ -1,15 +1,15 @@
 package com.example.Dingle.user.service;
 
 import com.example.Dingle.global.exception.AuthException;
+import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.AuthErrorMessage;
+import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.user.dto.UserDTO;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.type.UserRole;
 import com.example.Dingle.user.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class RegisterService {
@@ -31,6 +31,9 @@ public class RegisterService {
 
         if (userRepository.existsByUserId(userId)) {
             throw new AuthException(AuthErrorMessage.DUPLICATE_ID);
+        }
+        if(userRepository.existsByEmail(email)) {
+            throw new BusinessException(BusinessErrorMessage.DUPLICATE_USER_EMAIL);
         }
 
         User data = new User();
