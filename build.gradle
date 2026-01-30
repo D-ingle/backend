@@ -40,7 +40,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
-
+	implementation 'org.locationtech.jts:jts-core:1.19.0'
 }
 
 tasks.named('test') {
