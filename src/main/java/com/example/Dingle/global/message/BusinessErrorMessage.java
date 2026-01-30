@@ -27,7 +27,7 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     // 매물
     ALREADY_ZZIMED(HttpStatus.CONFLICT,"이미 찜한 매물입니다."),
     PROPERTY_NOT_EXISTS(HttpStatus.NOT_FOUND, "매물을 찾을 수 없습니다."),
-    NOT_ZZIMED(HttpStatus.CONFLICT,"찜한 매물이 아닙니다.");
+    NOT_ZZIMED(HttpStatus.CONFLICT,"찜한 매물이 아닙니다."),
 
     // 공공데이터
     CCTV_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CCTV 데이터 저장에 실패했습니다.");
