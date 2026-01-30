@@ -22,7 +22,10 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     DUPLICATE_CONDITION(HttpStatus.BAD_REQUEST, "이미 등록된 선호 조건입니다."),
 
     // 공인중개사
-    REALTOR_NOT_EXISTS(HttpStatus.BAD_REQUEST, "등록되지 않은 공인중개사입니다.");
+    REALTOR_NOT_EXISTS(HttpStatus.BAD_REQUEST, "등록되지 않은 공인중개사입니다."),
+
+    // 공공데이터
+    CCTV_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CCTV 데이터 저장에 실패했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
