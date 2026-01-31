@@ -48,4 +48,10 @@ public class Property {
     private String orientation;
 
     private LocalDateTime registeredAt;
+
+    @OneToOne(mappedBy = "property")
+    private PropertyDeal deal;
+
+    @OneToOne(mappedBy = "property")
+    private PropertyScore score;
 }

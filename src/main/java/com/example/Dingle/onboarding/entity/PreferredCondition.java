@@ -24,6 +24,8 @@ public class PreferredCondition {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    private int priority;
+
     public PreferredCondition(User user, Condition condition) {
         this.user = user;
         this.condition = condition;

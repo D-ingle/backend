@@ -32,13 +32,11 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        System.out.println("authorization now");
         String token = authorization.split(" ")[1];
 
         if(jwtUtil.isExpired(token)) {
-            System.out.println("token expired");
-            filterChain.doFilter(request, response);
-
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("JWT token expired");
             return;
         }
 
