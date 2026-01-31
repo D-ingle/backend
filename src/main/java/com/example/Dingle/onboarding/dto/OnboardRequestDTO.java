@@ -23,5 +23,5 @@ public class OnboardRequestDTO {
 
     @NotNull
     @Size(min = 1, max = 3)
-    private List<String> preferredConditions;
+    private List<Long> preferredConditions;
 }
