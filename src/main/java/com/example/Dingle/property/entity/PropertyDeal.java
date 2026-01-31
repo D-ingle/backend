@@ -21,7 +21,7 @@ public class PropertyDeal {
     @Enumerated(EnumType.STRING)
     private DealType dealType;
 
-    private Long salePrice;
+    private Long price;
     private Long deposit;
     private Long monthlyRent;
 
@@ -29,18 +29,18 @@ public class PropertyDeal {
         return new PropertyDeal(property, DealType.SALE, price, null, null);
     }
 
-    public static PropertyDeal lease(Property property, Long deposit) {
-        return new PropertyDeal(property, DealType.LEASE, null, deposit, null);
+    public static PropertyDeal lease(Property property, Long price) {
+        return new PropertyDeal(property, DealType.LEASE, price, null, null);
     }
 
     public static PropertyDeal rent(Property property, Long deposit, Long monthlyRent) {
         return new PropertyDeal(property, DealType.RENT, null, deposit, monthlyRent);
     }
 
-    private PropertyDeal(Property property, DealType dealType, Long salePrice, Long deposit, Long monthlyRent) {
+    private PropertyDeal(Property property, DealType dealType, Long price, Long deposit, Long monthlyRent) {
         this.property = property;
         this.dealType = dealType;
-        this.salePrice = salePrice;
+        this.price = price;
         this.deposit = deposit;
         this.monthlyRent = monthlyRent;
     }
