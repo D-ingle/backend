@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ConditionRepository extends JpaRepository<Condition, Long> {
     boolean existsByConditionName(String name);
-    List<Condition> findAllByConditionNameIn(List<String> conditionNames);
+    Long countByIdIn(List<Long> ids);
 }

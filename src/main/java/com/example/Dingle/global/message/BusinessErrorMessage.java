@@ -17,6 +17,7 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
 
     // 지역구, 선호 조건
     ALREADY_ONBOARDED(HttpStatus.CONFLICT, "온보딩은 최초 1회만 가능합니다."),
+    CONDITION_NOT_EXISTS(HttpStatus.NOT_FOUND, "등록되지 않은 조건입니다."),
     DUPLICATE_DISTRICT(HttpStatus.BAD_REQUEST, "이미 등록된 지역구입니다."),
     DISTRICT_NOT_EXISTS(HttpStatus.NOT_FOUND, "등록되지 않은 지역구입니다."),
     DUPLICATE_CONDITION(HttpStatus.BAD_REQUEST, "이미 등록된 선호 조건입니다."),
