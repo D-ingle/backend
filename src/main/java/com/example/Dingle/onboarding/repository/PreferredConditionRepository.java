@@ -13,5 +13,6 @@ import java.util.List;
 public interface PreferredConditionRepository extends JpaRepository<PreferredCondition, Long> {
     @Query("SELECT p.condition.id FROM PreferredCondition p WHERE p.user.id = :userId ORDER BY p.priority ASC")
     List<Long> findConditionIdsByUserId(@Param("userId") Long userId);
+    List<PreferredCondition> findAllByUserIdOrderByPriorityAsc(Long userId);
     void deleteByUser(User user);
 }

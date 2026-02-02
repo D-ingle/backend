@@ -25,7 +25,7 @@ public class PropertyRegisterRequestDTO {
 
     private int bedrooms;
     private int bathrooms;
-    private String orientation;
+    private OrientationType orientation;
 
     private List<FacilityType> facilities;
     private List<OptionType> options;

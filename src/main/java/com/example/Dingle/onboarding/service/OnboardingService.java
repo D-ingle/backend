@@ -46,7 +46,7 @@ public class OnboardingService {
 
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
-        user.setPreferredType(dto.getPreferredType());
+        user.setPropertyType(dto.getPropertyType());
 
         if (user.getOnboardedAt() != null) {
             throw new BusinessException(BusinessErrorMessage.ALREADY_ONBOARDED);

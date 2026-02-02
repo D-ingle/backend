@@ -11,6 +11,7 @@ import java.util.List;
 
 @Repository
 public interface PropertyScoreRepository extends JpaRepository<PropertyScore, Long> {
+    PropertyScore findAllByPropertyId(Long propertyId);
     @Query("""
         select ps
         from PropertyScore ps

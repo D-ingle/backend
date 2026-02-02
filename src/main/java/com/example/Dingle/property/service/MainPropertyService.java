@@ -12,6 +12,7 @@ import com.example.Dingle.property.repository.PropertyRepository;
 import com.example.Dingle.property.repository.PropertyScoreRepository;
 import com.example.Dingle.property.type.PropertyType;
 import com.example.Dingle.user.entity.User;
+import com.example.Dingle.user.repository.SavedPropertyRepository;
 import com.example.Dingle.user.repository.UserRepository;
 import com.example.Dingle.util.score.ConditionScoreExtractor;
 import com.example.Dingle.util.score.PropertyScoreMapper;
@@ -38,12 +39,14 @@ public class MainPropertyService {
     private final PreferredDistrictRepository preferredDistrictRepository;
     private final PropertyRepository propertyRepository;
     private final PropertyScoreRepository propertyScoreRepository;
+    private final SavedPropertyRepository savedPropertyRepository;
 
-    public MainPropertyService(UserRepository userRepository, PreferredDistrictRepository preferredDistrictRepository, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository) {
+    public MainPropertyService(UserRepository userRepository, PreferredDistrictRepository preferredDistrictRepository, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, SavedPropertyRepository savedPropertyRepository) {
         this.userRepository = userRepository;
         this.preferredDistrictRepository = preferredDistrictRepository;
         this.propertyRepository = propertyRepository;
         this.propertyScoreRepository = propertyScoreRepository;
+        this.savedPropertyRepository = savedPropertyRepository;
     }
 
     public MainPropertyResponseDTO getMainProperty(String userId, List<Long> selectConditions,PropertyType propertyType, Long cursor, Long size) {
@@ -106,6 +109,8 @@ public class MainPropertyService {
 
                     if(property == null) return null;
 
+                    boolean isLiked = savedPropertyRepository.existsByUserIdAndPropertyId(user.getId().toString(), property.getId());
+
                     return MainPropertyResponseDTO.PropertyItem.builder()
                             .propertyId(property.getId())
                             .propertyType(property.getPropertyType())
@@ -113,6 +118,8 @@ public class MainPropertyService {
                             .exclusiveArea(property.getExclusiveArea())
                             .supplyArea(property.getSupplyArea())
                             .floor(property.getFloor())
+                            .totalFloor(property.getTotalFloor())
+                            .liked(isLiked)
                             .latitude(property.getLatitude())
                             .longitude(property.getLongitude())
                             .dealInfo(buildDealInfo(property))
