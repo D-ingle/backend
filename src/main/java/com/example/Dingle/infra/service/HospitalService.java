@@ -39,7 +39,7 @@ public class HospitalService {
             HospitalResponse response = hospitalOpenAPIRepository.fetchHospitalData(districtName, startIndex, endsIndex);
 
             if (response != null && response.getRow() != null) {
-                result.addAll(mapRowToLocations(firstResponse.getRow(), districtName));
+                result.addAll(mapRowToLocations(response.getRow(), districtName));
             }
 
             startIndex += PAGE_SIZE;
