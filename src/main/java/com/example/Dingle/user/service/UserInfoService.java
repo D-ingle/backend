@@ -3,10 +3,10 @@ package com.example.Dingle.user.service;
 import com.example.Dingle.global.exception.AuthException;
 import com.example.Dingle.global.message.AuthErrorMessage;
 import com.example.Dingle.onboarding.repository.PreferredConditionRepository;
+import com.example.Dingle.property.type.PropertyType;
 import com.example.Dingle.user.dto.UserInfoDTO;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.repository.UserRepository;
-import com.example.Dingle.user.type.PreferredType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class UserInfoService {
 
-    private static final PreferredType DEFAULT_PREFERRED_TYPE = PreferredType.APT;
+    private static final PropertyType DEFAULT_PREFERRED_TYPE = PropertyType.APT;
     private static final List<Long> DEFAULT_CONDITION_IDS = List.of(1L, 2L, 3L);
 
 
@@ -32,20 +32,20 @@ public class UserInfoService {
 
         boolean isOnboard = (user.getOnboardedAt() == null);
 
-        PreferredType preferredType;
+        PropertyType propertyType;
         List<Long> conditionIds;
 
         if (isOnboard) {
-            preferredType = DEFAULT_PREFERRED_TYPE;
+            propertyType = DEFAULT_PREFERRED_TYPE;
             conditionIds = DEFAULT_CONDITION_IDS;
         } else {
-            preferredType = user.getPreferredType();
+            propertyType = user.getPropertyType();
             conditionIds = preferredConditionRepository.findConditionIdsByUserId(user.getId());
         }
 
         return UserInfoDTO.builder()
                 .userName(user.getUsername())
-                .preferredType(preferredType)
+                .propertyType(propertyType)
                 .preferredConditions(conditionIds)
                 .build();
 

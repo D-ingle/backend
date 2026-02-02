@@ -30,7 +30,8 @@ public class MainPropertyResponseDTO {
         private Double exclusiveArea;
         private Double supplyArea;
         private Integer floor;
-        //private boolean isLiked;
+        private Integer totalFloor;
+        private boolean liked;
         private double latitude;
         private double longitude;
         private DealInfo dealInfo;

@@ -41,7 +41,7 @@ public class DetailPropertyDTO {
         private OrientationType orientation;
         private Double parkingRatio;
         private Integer evParkingSpaces;
-        private boolean isLiked;
+        private boolean liked;
         private double latitude;
         private double longitude;
     }

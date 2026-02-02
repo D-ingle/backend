@@ -103,7 +103,7 @@ public class DetailPropertyService {
                         .orientation(property.getOrientation())
                         .parkingRatio(property.getParkingRatio())
                         .evParkingSpaces(property.getEvParkingSpaces())
-                        .isLiked(isLiked)
+                        .liked(isLiked)
                         .longitude(property.getLongitude())
                         .latitude(property.getLatitude())
                         .build())

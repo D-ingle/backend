@@ -1,7 +1,6 @@
 package com.example.Dingle.user.dto;
 
 import com.example.Dingle.property.type.PropertyType;
-import com.example.Dingle.user.type.PreferredType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +15,7 @@ import java.util.List;
 public class UserInfoDTO {
 
     private String userName;
-    private PreferredType preferredType;
+    private PropertyType propertyType;
     private List<Long> preferredConditions;
 
 }
