@@ -1,6 +1,6 @@
-package com.example.Dingle.environment.util;
+package com.example.Dingle.crime.util;
 
-import com.example.Dingle.environment.type.CrimeType;
+import com.example.Dingle.crime.type.CrimeType;
 
 public class CrimeTypeMapper {
 

@@ -1,12 +1,12 @@
-package com.example.Dingle.environment.service;
+package com.example.Dingle.crime.service;
 
 import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
-import com.example.Dingle.environment.entity.CrimeProneArea;
-import com.example.Dingle.environment.repository.CrimeProneAreaOpenApiRepository;
-import com.example.Dingle.environment.repository.CrimeProneAreaRepository;
-import com.example.Dingle.environment.util.CrimeTypeMapper;
-import com.example.Dingle.environment.util.GeometryConverter;
+import com.example.Dingle.crime.entity.CrimeProneArea;
+import com.example.Dingle.crime.repository.CrimeProneAreaOpenApiRepository;
+import com.example.Dingle.crime.repository.CrimeProneAreaRepository;
+import com.example.Dingle.crime.util.CrimeTypeMapper;
+import com.example.Dingle.crime.util.GeometryConverter;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EnvironmentService {
+public class CrimeService {
 
     private final CrimeProneAreaOpenApiRepository crimeProneAreaOpenApiRepository;
     private final CrimeProneAreaRepository crimeProneAreaRepository;

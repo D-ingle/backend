@@ -1,4 +1,4 @@
-package com.example.Dingle.environment.util;
+package com.example.Dingle.crime.util;
 
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
