@@ -33,4 +33,20 @@ public class Noise {
 
     @Column(nullable = false)
     private boolean isWeekend;
+
+    public Noise(
+            District district,
+            int time,
+            double noise,
+            double latitude,
+            double longitude,
+            boolean isWeekend
+    ) {
+        this.district = district;
+        this.time = time;
+        this.noise = noise;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.isWeekend = isWeekend;
+    }
 }
