@@ -1,12 +1,11 @@
 package com.example.Dingle.crime.service;
 
+import com.example.Dingle.crime.type.CrimeType;
 import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
-import com.example.Dingle.crime.entity.CrimeProneArea;
 import com.example.Dingle.crime.repository.CrimeProneAreaOpenApiRepository;
 import com.example.Dingle.crime.repository.CrimeProneAreaRepository;
 import com.example.Dingle.crime.util.CrimeTypeMapper;
-import com.example.Dingle.crime.util.GeometryConverter;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,10 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +26,7 @@ public class CrimeService {
     private final ObjectMapper objectMapper;
 
     private static final String TARGET_SGG_CODE = "11530";
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 100;
 
     @Transactional
     public void saveCrimeProneArea() throws Exception {
@@ -42,73 +37,34 @@ public class CrimeService {
         int pageNo = 1;
 
         while (true) {
-
             // 1. API 호출
             String raw = crimeProneAreaOpenApiRepository.fetch(pageNo, PAGE_SIZE);
-            System.out.println(raw);
 
             // 2. JSON 파싱
             JsonNode root = objectMapper.readTree(raw);
             JsonNode bodyNode = root.get("body");
 
-            if (bodyNode == null || bodyNode.isNull()) {
-                log.info("[CrimeAPI] body is null. stop. pageNo={}", pageNo);
-                break;
-            }
-
-            if (!bodyNode.isArray()) {
-                log.warn("[CrimeAPI] body exists but not array. pageNo={} body={}",
-                        pageNo, bodyNode);
-                break;
-            }
-
-            if (bodyNode.size() == 0) {
-                log.info("[CrimeAPI] body empty array. stop. pageNo={}", pageNo);
-                break;
-            }
-
-            List<CrimeProneArea> saveTargets = new ArrayList<>();
-
             // 3. 구로구 필터
             for (JsonNode item : bodyNode) {
-
                 String sggCode = item.path("STDG_SGG_CD").asText();
                 if (!sggCode.startsWith(TARGET_SGG_CODE)) continue;
 
-                CrimeProneArea area = new CrimeProneArea(
-                        district,
-                        CrimeTypeMapper.from(item.path("TYPE_NM").asText()),
-                        safeParseInt(item.path("GRD").asText()),
-                        GeometryConverter.toMultiPolygon(item.path("GEOM").asText())
+                CrimeType crimeType = CrimeTypeMapper.from(item.path("TYPE_NM").asText());
+                int riskLevel = item.path("GRD").asInt();
+
+                String wkt = item.path("GEOM").asText();
+
+                crimeProneAreaRepository.insertNative(
+                        district.getId(),
+                        crimeType,
+                        riskLevel,
+                        wkt
                 );
-
-                saveTargets.add(area);
             }
 
-            // 4. DB 저장
-            if (!saveTargets.isEmpty()) {
-                crimeProneAreaRepository.saveAll(saveTargets);
-                log.info("[CrimeAPI] pageNo={} saved {} (구로구)", pageNo, saveTargets.size());
-            } else {
-                log.info("[CrimeAPI] pageNo={} 구로구 데이터 없음", pageNo);
-            }
-
-            // 5. 마지막 페이지 판단
-            if (bodyNode.size() < PAGE_SIZE) {
-                log.info("[CrimeAPI] last page reached. pageNo={}", pageNo);
-                break;
-            }
-
+            if (bodyNode.size() < PAGE_SIZE) break;
             pageNo++;
             Thread.sleep(200);
-        }
-    }
-
-    private int safeParseInt(String v) {
-        try {
-            return Integer.parseInt(v);
-        } catch (Exception e) {
-            return 0;
         }
     }
 }

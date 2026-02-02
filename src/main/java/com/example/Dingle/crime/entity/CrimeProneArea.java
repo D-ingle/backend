@@ -31,15 +31,4 @@ public class CrimeProneArea {
     @Column(columnDefinition = "geometry(MultiPolygon, 5179)", nullable = false)
     private MultiPolygon geometry;
 
-    public CrimeProneArea(
-            District district,
-            CrimeType crimeType,
-            int riskLevel,
-            MultiPolygon geometry
-    ) {
-        this.district = district;
-        this.crimeType = crimeType;
-        this.riskLevel = riskLevel;
-        this.geometry = geometry;
-    }
 }

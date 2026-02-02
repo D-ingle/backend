@@ -29,13 +29,10 @@ public class CrimeProneAreaOpenApiRepository {
         urlBuilder.append("&numOfRows=").append(pageSize);
 
         URL url = new URI(urlBuilder.toString()).toURL();
-
-        HttpURLConnection connection =
-                (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
