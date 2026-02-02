@@ -18,4 +18,9 @@ public class InfraController {
     public void saveCctvInfra(@RequestParam String district) {
         infraService.saveCctvInfra(district);
     }
+
+    @PostMapping("/market")
+    public void saveMarketInfra(@RequestParam String district) {
+        infraService.saveMarketInfra(district);
+    }
 }

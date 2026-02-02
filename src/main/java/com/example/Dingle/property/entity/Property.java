@@ -1,6 +1,7 @@
 package com.example.Dingle.property.entity;
 
 import com.example.Dingle.district.entity.District;
+import com.example.Dingle.property.dto.OrientationType;
 import com.example.Dingle.property.type.PropertyType;
 import com.example.Dingle.realtor.entity.Realtor;
 import jakarta.persistence.*;
@@ -45,7 +46,16 @@ public class Property {
     private int totalFloor;
     private int bedrooms;
     private int bathrooms;
-    private String orientation;
+    @Enumerated(EnumType.STRING)
+    private OrientationType orientation;
+    private Double parkingRatio;
+    private Integer evParkingSpaces;
 
     private LocalDateTime registeredAt;
+
+    @OneToOne(mappedBy = "property")
+    private PropertyDeal deal;
+
+    @OneToOne(mappedBy = "property")
+    private PropertyScore score;
 }

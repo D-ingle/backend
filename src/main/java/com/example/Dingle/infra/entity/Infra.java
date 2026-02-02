@@ -35,6 +35,9 @@ public class Infra {
     @Column(nullable = false)
     private double longitude;
 
+    private String name;
+    private String roadAddress;
+
     public Infra(
             District district,
             Category category,
@@ -47,5 +50,15 @@ public class Infra {
         this.infraType = infraType;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Infra(District district, Category category, InfraType infraType, String name, String loadAddress, double longitude, double latitude) {
+        this.district = district;
+        this.category = category;
+        this.infraType = infraType;
+        this.name = name;
+        this.roadAddress = loadAddress;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 }

@@ -5,6 +5,7 @@ import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.infra.dto.CctvLocationDto;
+import com.example.Dingle.infra.dto.MarketLocationDTO;
 import com.example.Dingle.infra.entity.Infra;
 import com.example.Dingle.infra.repository.InfraRepository;
 import com.example.Dingle.infra.type.Category;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InfraService {
     private final CctvService cctvService;
+    private final MarketService marketService;
     private final DistrictRepository districtRepository;
     private final InfraRepository infraRepository;
 
@@ -41,5 +43,27 @@ public class InfraService {
                 .toList();
 
         infraRepository.saveAll(infraList);
+    }
+
+    @Transactional
+    public void saveMarketInfra(String districtName) {
+
+        District district = districtRepository.findByDistrictName(districtName)
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
+
+        List<MarketLocationDTO> marketLocations = marketService.getMarketLocations(districtName);
+
+        List<Infra> market = marketLocations.stream()
+                .map(dto -> new Infra(
+                        district,
+                        Category.CONVENIENCE,
+                        InfraType.MARKET,
+                        dto.getName(),
+                        dto.getLoadAddress(),
+                        dto.getLatitude(),
+                        dto.getLongitude()
+                ))
+                .toList();
+        infraRepository.saveAll(market);
     }
 }

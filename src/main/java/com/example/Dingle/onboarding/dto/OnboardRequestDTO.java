@@ -1,6 +1,6 @@
 package com.example.Dingle.onboarding.dto;
 
-import com.example.Dingle.user.type.PreferredType;
+import com.example.Dingle.property.type.PropertyType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 public class OnboardRequestDTO {
 
     @NotNull
-    private PreferredType preferredType;
+    private PropertyType propertyType;
 
     @NotNull
     @Size(min = 1, max = 3)
@@ -23,5 +23,5 @@ public class OnboardRequestDTO {
 
     @NotNull
     @Size(min = 1, max = 3)
-    private List<String> preferredConditions;
+    private List<Long> preferredConditions;
 }

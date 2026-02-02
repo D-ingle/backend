@@ -1,6 +1,6 @@
 package com.example.Dingle.user.entity;
 
-import com.example.Dingle.user.type.PreferredType;
+import com.example.Dingle.property.type.PropertyType;
 import com.example.Dingle.user.type.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class User {
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    private PreferredType preferredType;
+    private PropertyType propertyType;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;

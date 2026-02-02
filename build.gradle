@@ -41,6 +41,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 	implementation 'org.locationtech.jts:jts-core:1.19.0'
+	implementation 'org.locationtech.proj4j:proj4j:1.2.2'
+	implementation "org.locationtech.proj4j:proj4j-epsg:1.2.3"
+
 }
 
 tasks.named('test') {

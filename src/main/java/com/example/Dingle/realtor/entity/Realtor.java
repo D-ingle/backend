@@ -27,6 +27,7 @@ public class Realtor {
 
     private String officeName;
     private String officePhone;
+    private String officeAddress;
     private String licenseNumber;
 
     private LocalDateTime createdAt;
