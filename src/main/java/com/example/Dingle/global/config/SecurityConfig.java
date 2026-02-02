@@ -3,6 +3,7 @@ package com.example.Dingle.global.config;
 import com.example.Dingle.global.jwt.JWTFilter;
 import com.example.Dingle.global.jwt.JWTUtil;
 import com.example.Dingle.global.jwt.LoginFilter;
+import com.example.Dingle.user.service.UserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -24,10 +25,12 @@ import java.util.List;
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final UserInfoService userInfoService;
     private final JWTUtil jwtUtil;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, UserInfoService userInfoService, JWTUtil jwtUtil) {
         this.authenticationConfiguration = authenticationConfiguration;
+        this.userInfoService = userInfoService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -83,7 +86,7 @@ public class SecurityConfig {
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(
-                        new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
+                        new LoginFilter(authenticationManager(authenticationConfiguration), userInfoService, jwtUtil),
                         UsernamePasswordAuthenticationFilter.class
                 );
 
