@@ -33,7 +33,7 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     CCTV_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CCTV 데이터 저장에 실패했습니다."),
 
     // GEOM
-    GEOM_PARSE_FAILED(HttpStatus.CONFLICT, "GEOM 파싱에 실패했습니다.");
+    GEOM_PARSE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "GEOM 파싱에 실패했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

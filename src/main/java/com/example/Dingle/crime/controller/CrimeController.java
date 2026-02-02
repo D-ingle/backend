@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/environment")
 public class CrimeController {
 
-    private final CrimeService environmentService;
+    private final CrimeService crimeService;
 
     @PostMapping("/crime")
-    public void saveCctvInfra() throws Exception {
-        environmentService.saveCrimeProneArea();
+    public void saveCrimeProne() throws Exception {
+        crimeService.saveCrimeProneArea();
     }
 }
