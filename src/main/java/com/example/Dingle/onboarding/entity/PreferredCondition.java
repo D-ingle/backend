@@ -26,7 +26,6 @@ public class PreferredCondition {
 
     private int priority;
 
-
     public PreferredCondition(User user, Condition condition, int priority) {
         this.user = user;
         this.condition = condition;
