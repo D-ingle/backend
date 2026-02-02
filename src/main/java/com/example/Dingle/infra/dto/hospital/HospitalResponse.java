@@ -1,4 +1,4 @@
-package com.example.Dingle.infra.dto;
+package com.example.Dingle.infra.dto.hospital;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -12,12 +12,12 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JacksonXmlRootElement(localName = "LOCALDATA_082501")
-public class MarketResponse {
+@JacksonXmlRootElement(localName = "LOCALDATA_010101")
+public class HospitalResponse {
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "row")
-    private List<MarketRow> row;
+    private List<HospitalRow> row;
 
     @JacksonXmlProperty(localName = "list_total_count")
     private int listTotalCount;
