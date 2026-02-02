@@ -1,34 +1,50 @@
 package com.example.Dingle.environment.repository;
 
-import com.example.Dingle.environment.dto.CrimeApiResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class CrimeProneAreaOpenApiRepository {
-
-    private final RestTemplate restTemplate;
 
     @Value("${crime.api.key}")
     private String serviceKey;
 
-    private static final String BASE_URL = "https://apis.data.go.kr/V2/api/DSSP-IF-00149";
+    private static final String BASE_URL = "https://www.safetydata.go.kr/V2/api/DSSP-IF-00149";
 
-    public CrimeApiResponse fetch(int pageNo, int pageSize) {
+    public String fetch(int pageNo, int pageSize) throws Exception {
 
-        String url = UriComponentsBuilder
-                .fromHttpUrl(BASE_URL)
-                .queryParam("serviceKey", serviceKey)
-                .queryParam("numOfRows", pageSize)
-                .queryParam("pageNo", pageNo)
-                .queryParam("returnType", "json")
-                .build()
-                .toUriString();
+        StringBuilder urlBuilder = new StringBuilder(BASE_URL);
+        urlBuilder.append("?serviceKey=").append(serviceKey);
+        urlBuilder.append("&pageNo=").append(pageNo);
+        urlBuilder.append("&numOfRows=").append(pageSize);
 
-        return restTemplate.getForObject(url, CrimeApiResponse.class);
+        URL url = new URI(urlBuilder.toString()).toURL();
+
+        HttpURLConnection connection =
+                (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+
+        reader.close();
+        connection.disconnect();
+
+        return sb.toString();
     }
 }

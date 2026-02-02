@@ -14,7 +14,7 @@ public class EnvironmentController {
     private final EnvironmentService environmentService;
 
     @PostMapping("/crime")
-    public void saveCctvInfra() {
-        environmentService.saveCrimePronArea();
+    public void saveCctvInfra() throws Exception {
+        environmentService.saveCrimeProneArea();
     }
 }
