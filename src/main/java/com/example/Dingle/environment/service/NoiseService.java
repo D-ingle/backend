@@ -3,7 +3,7 @@ package com.example.Dingle.environment.service;
 import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.environment.dto.NoiseResponse;
-import com.example.Dingle.environment.dto.NoiseRowDto;
+import com.example.Dingle.environment.dto.NoiseRowDTO;
 import com.example.Dingle.environment.entity.Noise;
 import com.example.Dingle.environment.repository.NoiseRepository;
 import com.example.Dingle.global.exception.BusinessException;
@@ -49,7 +49,7 @@ public class NoiseService {
 
         Map<String, double[]> sensorMap = NoiseSensorLocation.SENSOR_MAP;
 
-        for (NoiseRowDto row : response.getRows()) {
+        for (NoiseRowDTO row : response.getRows()) {
 
             if (!sensorMap.containsKey(row.getSn())) continue;
             if (row.getAvgNoise() == null) continue;

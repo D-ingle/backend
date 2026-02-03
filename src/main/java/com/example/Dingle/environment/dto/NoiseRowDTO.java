@@ -1,6 +1,5 @@
 package com.example.Dingle.environment.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.Getter;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JacksonXmlRootElement(localName = "row")
-public class NoiseRowDto {
+public class NoiseRowDTO {
 
     @JacksonXmlProperty(localName = "SN")
     private String sn;

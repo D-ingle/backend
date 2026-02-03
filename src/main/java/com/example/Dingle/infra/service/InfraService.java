@@ -4,7 +4,7 @@ import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
-import com.example.Dingle.infra.dto.CctvLocationDto;
+import com.example.Dingle.infra.dto.cctv.CctvLocationDTO;
 import com.example.Dingle.infra.dto.convenienceStore.ConvenienceStoreLocationDTO;
 import com.example.Dingle.infra.dto.hospital.HospitalLocationDTO;
 import com.example.Dingle.infra.dto.market.MarketLocationDTO;
@@ -34,7 +34,7 @@ public class InfraService {
         District district = districtRepository.findByDistrictName(districtName)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
 
-        List<CctvLocationDto> cctvLocations = cctvService.getCctvLocations(districtName);
+        List<CctvLocationDTO> cctvLocations = cctvService.getCctvLocations(districtName);
 
         List<Infra> infraList = cctvLocations.stream()
                 .map(dto -> new Infra(

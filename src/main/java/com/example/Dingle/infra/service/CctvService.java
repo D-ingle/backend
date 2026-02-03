@@ -1,7 +1,7 @@
 package com.example.Dingle.infra.service;
 
-import com.example.Dingle.infra.dto.CctvLocationDto;
-import com.example.Dingle.infra.dto.SafeOpenCctvResponse;
+import com.example.Dingle.infra.dto.cctv.CctvLocationDTO;
+import com.example.Dingle.infra.dto.cctv.SafeOpenCctvResponse;
 import com.example.Dingle.infra.repository.CctvOpenApiRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,16 +17,16 @@ public class CctvService {
 
     private final CctvOpenApiRepository cctvOpenApiRepository;
 
-    public List<CctvLocationDto> getCctvLocations(String districtName) {
+    public List<CctvLocationDTO> getCctvLocations(String districtName) {
 
         SafeOpenCctvResponse firstResponse = cctvOpenApiRepository.fetchCctvData(districtName, 1, PAGE_SIZE);
 
         int totalCount = firstResponse.getListTotalCount();
-        List<CctvLocationDto> result = new ArrayList<>();
+        List<CctvLocationDTO> result = new ArrayList<>();
 
         result.addAll(
                 firstResponse.getRows().stream()
-                        .map(row -> new CctvLocationDto(
+                        .map(row -> new CctvLocationDTO(
                                 row.getSvcAreaId(),
                                 row.getLatitude(),
                                 row.getLongitude()
@@ -49,7 +49,7 @@ public class CctvService {
             if (response != null && response.getRows() != null) {
                 result.addAll(
                         response.getRows().stream()
-                                .map(row -> new CctvLocationDto(
+                                .map(row -> new CctvLocationDTO(
                                         row.getSvcAreaId(),
                                         row.getLatitude(),
                                         row.getLongitude()

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FloatingPopulationRowDto {
+public class FloatingPopulationRowDTO {
 
     @JacksonXmlProperty(localName = "MODEL_NM")
     private String modelNm;
