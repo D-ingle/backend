@@ -1,4 +1,4 @@
-package com.example.Dingle.crime.repository;
+package com.example.Dingle.safety.repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

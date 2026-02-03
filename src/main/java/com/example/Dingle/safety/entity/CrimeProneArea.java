@@ -1,7 +1,7 @@
-package com.example.Dingle.crime.entity;
+package com.example.Dingle.safety.entity;
 
 import com.example.Dingle.district.entity.District;
-import com.example.Dingle.crime.type.CrimeType;
+import com.example.Dingle.safety.type.CrimeType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

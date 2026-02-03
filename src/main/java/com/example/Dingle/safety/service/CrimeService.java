@@ -1,11 +1,11 @@
-package com.example.Dingle.crime.service;
+package com.example.Dingle.safety.service;
 
-import com.example.Dingle.crime.type.CrimeType;
+import com.example.Dingle.safety.type.CrimeType;
 import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
-import com.example.Dingle.crime.repository.CrimeProneAreaOpenApiRepository;
-import com.example.Dingle.crime.repository.CrimeProneAreaRepository;
-import com.example.Dingle.crime.util.CrimeTypeMapper;
+import com.example.Dingle.safety.repository.CrimeProneAreaOpenApiRepository;
+import com.example.Dingle.safety.repository.CrimeProneAreaRepository;
+import com.example.Dingle.safety.util.CrimeTypeMapper;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.fasterxml.jackson.databind.JsonNode;

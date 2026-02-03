@@ -1,6 +1,6 @@
-package com.example.Dingle.crime.controller;
+package com.example.Dingle.safety.controller;
 
-import com.example.Dingle.crime.service.CrimeService;
+import com.example.Dingle.safety.service.CrimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
