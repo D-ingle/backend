@@ -1,0 +1,9 @@
+package com.example.Dingle.safety.repository;
+
+import com.example.Dingle.safety.entity.Safety;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface SafetyRepository extends JpaRepository<Safety, Long>{
+}
