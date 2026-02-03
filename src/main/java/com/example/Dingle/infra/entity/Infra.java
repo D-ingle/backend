@@ -30,20 +30,21 @@ public class Infra {
     private InfraType infraType;
 
     @Column(nullable = false)
-    private double latitude;
+    private Double latitude;
 
     @Column(nullable = false)
-    private double longitude;
+    private Double longitude;
 
     private String name;
     private String roadAddress;
+    private String hospitalType;
 
     public Infra(
             District district,
             Category category,
             InfraType infraType,
-            double latitude,
-            double longitude
+            Double latitude,
+            Double longitude
     ) {
         this.district = district;
         this.category = category;
@@ -52,13 +53,24 @@ public class Infra {
         this.longitude = longitude;
     }
 
-    public Infra(District district, Category category, InfraType infraType, String name, String loadAddress, double longitude, double latitude) {
+    public Infra(District district, Category category, InfraType infraType, String name, String loadAddress, Double latitude, Double longitude) {
         this.district = district;
         this.category = category;
         this.infraType = infraType;
         this.name = name;
         this.roadAddress = loadAddress;
-        this.longitude = longitude;
         this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Infra(District district, Category category, InfraType infraType, String name, String hospitalType, String loadAddress, Double latitude, Double longitude) {
+        this.district = district;
+        this.category = category;
+        this.infraType = infraType;
+        this.name = name;
+        this.hospitalType = hospitalType;
+        this.roadAddress = loadAddress;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

@@ -31,7 +31,10 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     NOT_ZZIMED(HttpStatus.CONFLICT,"찜한 매물이 아닙니다."),
 
     // 공공데이터
-    CCTV_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CCTV 데이터 저장에 실패했습니다.");
+    CCTV_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CCTV 데이터 저장에 실패했습니다."),
+
+    // GEOM
+    GEOM_PARSE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "GEOM 파싱에 실패했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

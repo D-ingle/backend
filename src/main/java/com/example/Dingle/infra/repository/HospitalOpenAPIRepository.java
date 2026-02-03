@@ -1,31 +1,29 @@
 package com.example.Dingle.infra.repository;
 
-import com.example.Dingle.infra.dto.MarketResponse;
-import com.example.Dingle.util.map.OpenApiXmlFetcher;
-import com.example.Dingle.infra.dto.market.MarketResponse;
+import com.example.Dingle.infra.dto.hospital.HospitalResponse;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 @Repository
-public class MarketOpenAPIRepository {
+public class HospitalOpenAPIRepository {
 
-    private final RestTemplate restTemplate;
-    private final XmlMapper xmlMapper;
+    private RestTemplate restTemplate;
+    private XmlMapper xmlMapper;
 
     @Value("${seoul.openapi.key}")
     private String apiKey;
 
-    public MarketOpenAPIRepository() {
+    public HospitalOpenAPIRepository() {
         this.restTemplate = new RestTemplate();
         this.xmlMapper = new XmlMapper();
     }
 
-    public MarketResponse fetchMarketData(String districtName, int startIndex, int endIndex) {
+    public HospitalResponse fetchHospitalData(String districtName, int startIndex, int endIndex) {
         StringBuilder url = new StringBuilder("http://openapi.seoul.go.kr:8088/");
         url.append(apiKey)
-                .append("/xml/LOCALDATA_082501/")
+                .append("/xml/LOCALDATA_010101/")
                 .append(startIndex)
                 .append("/")
                 .append(endIndex)
@@ -36,11 +34,13 @@ public class MarketOpenAPIRepository {
         }
 
         try {
-            String xmlResponse = OpenApiXmlFetcher.fetch(restTemplate, url.toString());
-            return xmlMapper.readValue(xmlResponse, MarketResponse.class);
-        } catch (Exception e) {
-            throw new RuntimeException("서울시 Market OpenAPI 호출 실패", e);
-        }
+            String xmlResponse = restTemplate.getForObject(url.toString(), String.class);
 
+            return xmlMapper.readValue(xmlResponse, HospitalResponse.class);
+        } catch (Exception e) {
+            throw new RuntimeException("서울시 Hospital OpenAPI 호출 실패", e);
+        }
     }
+
+
 }
