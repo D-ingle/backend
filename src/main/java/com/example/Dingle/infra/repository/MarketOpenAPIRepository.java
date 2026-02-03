@@ -1,6 +1,5 @@
 package com.example.Dingle.infra.repository;
 
-import com.example.Dingle.infra.dto.MarketResponse;
 import com.example.Dingle.util.map.OpenApiXmlFetcher;
 import com.example.Dingle.infra.dto.market.MarketResponse;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
