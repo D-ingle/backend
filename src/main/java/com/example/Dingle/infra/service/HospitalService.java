@@ -75,7 +75,7 @@ public class HospitalService {
         Double latitude = null;
 
         if(X != null && Y != null ){
-            double[] lonLat = CoordinateConverter.convert(X,Y);
+            double[] lonLat = CoordinateConverter.convert5174(X,Y);
             longitude = lonLat[0];
             latitude = lonLat[1];
         }
