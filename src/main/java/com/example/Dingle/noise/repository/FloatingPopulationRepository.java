@@ -1,6 +1,6 @@
-package com.example.Dingle.environment.repository;
+package com.example.Dingle.noise.repository;
 
-import com.example.Dingle.environment.entity.FloatingPopulation;
+import com.example.Dingle.noise.entity.FloatingPopulation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

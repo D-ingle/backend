@@ -1,4 +1,4 @@
-package com.example.Dingle.environment.entity;
+package com.example.Dingle.noise.entity;
 
 import com.example.Dingle.district.entity.District;
 import jakarta.persistence.*;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Getter
-@Table(name = "floating_population")
-public class FloatingPopulation {
+@Table(name = "noise")
+public class Noise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class FloatingPopulation {
     private int time;
 
     @Column(nullable = false)
-    private int population;
+    private double noise;
 
     @Column(nullable = false)
     private double latitude;
@@ -34,17 +34,17 @@ public class FloatingPopulation {
     @Column(nullable = false)
     private boolean isWeekend;
 
-    public FloatingPopulation(
+    public Noise(
             District district,
             int time,
-            int population,
+            double noise,
             double latitude,
             double longitude,
             boolean isWeekend
     ) {
         this.district = district;
         this.time = time;
-        this.population = population;
+        this.noise = noise;
         this.latitude = latitude;
         this.longitude = longitude;
         this.isWeekend = isWeekend;
