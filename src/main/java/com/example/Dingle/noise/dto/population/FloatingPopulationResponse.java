@@ -20,5 +20,5 @@ public class FloatingPopulationResponse {
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "row")
-    private List<FloatingPopulationRowDto> rows;
+    private List<FloatingPopulationRowDTO> rows;
 }

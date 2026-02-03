@@ -4,7 +4,7 @@ import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
-import com.example.Dingle.infra.dto.CctvLocationDto;
+import com.example.Dingle.infra.dto.cctv.CctvLocationDTO;
 import com.example.Dingle.infra.dto.convenienceStore.ConvenienceStoreLocationDTO;
 import com.example.Dingle.infra.dto.hospital.HospitalLocationDTO;
 import com.example.Dingle.infra.dto.market.MarketLocationDTO;
@@ -12,6 +12,8 @@ import com.example.Dingle.infra.entity.Infra;
 import com.example.Dingle.infra.repository.InfraRepository;
 import com.example.Dingle.infra.type.Category;
 import com.example.Dingle.infra.type.InfraType;
+import com.example.Dingle.safety.entity.Safety;
+import com.example.Dingle.safety.repository.SafetyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class InfraService {
     private final DistrictRepository districtRepository;
     private final InfraRepository infraRepository;
     private final ConvenienceStoreService convenienceStoreService;
+    private final SafetyRepository safetyRepository;
 
     @Transactional
     public void saveCctvInfra(String districtName) {
@@ -34,19 +37,18 @@ public class InfraService {
         District district = districtRepository.findByDistrictName(districtName)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
 
-        List<CctvLocationDto> cctvLocations = cctvService.getCctvLocations(districtName);
+        List<CctvLocationDTO> cctvLocations = cctvService.getCctvLocations(districtName);
 
-        List<Infra> infraList = cctvLocations.stream()
-                .map(dto -> new Infra(
+        List<Safety> infraList = cctvLocations.stream()
+                .map(dto -> new Safety(
                         district,
-                        Category.SAFETY,
                         InfraType.CCTV,
                         dto.getLatitude(),
                         dto.getLongitude()
                 ))
                 .toList();
 
-        infraRepository.saveAll(infraList);
+        safetyRepository.saveAll(infraList);
     }
 
     @Transactional

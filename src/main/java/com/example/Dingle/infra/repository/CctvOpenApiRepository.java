@@ -1,6 +1,6 @@
 package com.example.Dingle.infra.repository;
 
-import com.example.Dingle.infra.dto.SafeOpenCctvResponse;
+import com.example.Dingle.infra.dto.cctv.SafeOpenCctvResponse;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;

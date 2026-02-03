@@ -1,7 +1,6 @@
-package com.example.Dingle.crime.repository;
+package com.example.Dingle.safety.repository;
 
-import com.example.Dingle.crime.entity.CrimeProneArea;
-import com.example.Dingle.crime.type.CrimeType;
+import com.example.Dingle.safety.entity.CrimeProneArea;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

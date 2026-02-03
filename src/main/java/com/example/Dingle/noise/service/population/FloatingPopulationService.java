@@ -3,7 +3,7 @@ package com.example.Dingle.noise.service.population;
 import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.noise.dto.population.FloatingPopulationResponse;
-import com.example.Dingle.noise.dto.population.FloatingPopulationRowDto;
+import com.example.Dingle.noise.dto.population.FloatingPopulationRowDTO;
 import com.example.Dingle.noise.entity.FloatingPopulation;
 import com.example.Dingle.noise.repository.FloatingPopulationRepository;
 import com.example.Dingle.global.exception.BusinessException;
@@ -62,12 +62,12 @@ public class FloatingPopulationService {
                 break;
             }
 
-            List<FloatingPopulationRowDto> rows = response.getRows();
+            List<FloatingPopulationRowDTO> rows = response.getRows();
             if (rows.isEmpty()) {
                 break;
             }
 
-            for (FloatingPopulationRowDto row : rows) {
+            for (FloatingPopulationRowDTO row : rows) {
                 if (!sensorMap.containsKey(row.getSerialNo())) continue;
 
                 LocalDateTime sensingTime = parse(row.getSensingTime());

@@ -15,5 +15,5 @@ public class NoiseResponse {
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "row")
-    private List<NoiseRowDto> rows;
+    private List<NoiseRowDTO> rows;
 }

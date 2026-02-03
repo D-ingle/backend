@@ -1,4 +1,4 @@
-package com.example.Dingle.crime.type;
+package com.example.Dingle.safety.type;
 
 public enum CrimeType {
     VIOLENT, SEXUAL, THEFT, TOTAL

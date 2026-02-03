@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JacksonXmlRootElement(localName = "row")
-public class NoiseRowDto {
+public class NoiseRowDTO {
 
     @JacksonXmlProperty(localName = "SN")
     private String sn;
