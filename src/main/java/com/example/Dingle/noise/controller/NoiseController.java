@@ -1,6 +1,6 @@
 package com.example.Dingle.noise.controller;
 
-import com.example.Dingle.noise.service.firestation.SaveService;
+import com.example.Dingle.noise.service.SaveService;
 import com.example.Dingle.noise.service.noise.NoiseService;
 import com.example.Dingle.noise.service.population.FloatingPopulationService;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +35,10 @@ public class NoiseController {
     @PostMapping("/fireStation")
     public void saveFireStationInfra() {
         saveService.saveFireStation();
+    }
+
+    @PostMapping("/construction")
+    public void saveConstructionInfra(@RequestParam String district) {
+        saveService.saveConstruction(district);
     }
 }
