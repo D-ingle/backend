@@ -26,4 +26,9 @@ public class InfraController {
 
     @PostMapping("/hospital")
     public void saveHospitalInfra(@RequestParam String district) {infraService.saveHospitalInfra(district);}
+
+    @PostMapping("/convenienceStore")
+    public void saveConvenienceStoreInfra(@RequestParam String district) {
+        infraService.saveConvenienceStoreInfra(district);
+    }
 }
