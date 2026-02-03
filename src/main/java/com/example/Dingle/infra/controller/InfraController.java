@@ -23,4 +23,9 @@ public class InfraController {
     public void saveMarketInfra(@RequestParam String district) {
         infraService.saveMarketInfra(district);
     }
+
+    @PostMapping("/convenienceStore")
+    public void saveConvenienceStoreInfra(@RequestParam String district) {
+        infraService.saveConvenienceStoreInfra(district);
+    }
 }

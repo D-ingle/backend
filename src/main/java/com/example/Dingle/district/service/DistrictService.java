@@ -22,7 +22,7 @@ public class DistrictService {
         }
 
         districtRepository.save(
-                new District(request.getDistrictName())
+                new District(request.getDistrictName(), request.getDistrictCode())
         );
     }
 }

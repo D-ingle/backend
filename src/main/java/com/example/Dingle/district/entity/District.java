@@ -17,7 +17,11 @@ public class District {
     @Column(nullable = false)
     private String districtName;
 
-    public District(String name) {
+    @Column(nullable = false, length = 5)
+    private String districtCode;
+
+    public District(String name, String code) {
         this.districtName = name;
+        this.districtCode = code;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.Dingle.infra.repository;
 
 import com.example.Dingle.infra.dto.MarketResponse;
+import com.example.Dingle.util.map.OpenApiXmlFetcher;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -34,8 +35,7 @@ public class MarketOpenAPIRepository {
         }
 
         try {
-            String xmlResponse = restTemplate.getForObject(url.toString(), String.class);
-
+            String xmlResponse = OpenApiXmlFetcher.fetch(restTemplate, url.toString());
             return xmlMapper.readValue(xmlResponse, MarketResponse.class);
         } catch (Exception e) {
             throw new RuntimeException("서울시 Market OpenAPI 호출 실패", e);

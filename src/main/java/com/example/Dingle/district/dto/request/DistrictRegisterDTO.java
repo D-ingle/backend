@@ -7,4 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class DistrictRegisterDTO {
     private String districtName;
+    private String districtCode;
 }

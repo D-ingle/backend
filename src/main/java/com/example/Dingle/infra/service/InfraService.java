@@ -6,6 +6,7 @@ import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.infra.dto.CctvLocationDto;
 import com.example.Dingle.infra.dto.MarketLocationDTO;
+import com.example.Dingle.infra.dto.convenienceStore.ConvenienceStoreLocationDTO;
 import com.example.Dingle.infra.entity.Infra;
 import com.example.Dingle.infra.repository.InfraRepository;
 import com.example.Dingle.infra.type.Category;
@@ -23,6 +24,7 @@ public class InfraService {
     private final MarketService marketService;
     private final DistrictRepository districtRepository;
     private final InfraRepository infraRepository;
+    private final ConvenienceStoreService convenienceStoreService;
 
     @Transactional
     public void saveCctvInfra(String districtName) {
@@ -65,5 +67,28 @@ public class InfraService {
                 ))
                 .toList();
         infraRepository.saveAll(market);
+    }
+
+    @Transactional
+    public void saveConvenienceStoreInfra(String districtName) {
+        District district = districtRepository.findByDistrictName(districtName)
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
+
+        String districtCode = district.getDistrictCode();
+
+        List<ConvenienceStoreLocationDTO> convenienceStoreLocations = convenienceStoreService.getConvenienceStoreLocations(districtCode);
+
+        List<Infra> convenienceStore = convenienceStoreLocations.stream()
+                .map(dto -> new Infra(
+                        district,
+                        Category.CONVENIENCE,
+                        InfraType.CONVENIENCE_STORE,
+                        dto.getName(),
+                        dto.getLoadAddress(),
+                        dto.getLongitude(),
+                        dto.getLatitude()
+                ))
+                .toList();
+        infraRepository.saveAll(convenienceStore);
     }
 }
