@@ -1,4 +1,4 @@
-package com.example.Dingle.environment.dto;
+package com.example.Dingle.noise.dto.noise;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

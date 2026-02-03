@@ -1,4 +1,4 @@
-package com.example.Dingle.environment.dto;
+package com.example.Dingle.noise.dto.noise;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;

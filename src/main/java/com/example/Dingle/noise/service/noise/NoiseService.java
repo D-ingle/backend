@@ -1,11 +1,11 @@
-package com.example.Dingle.environment.service;
+package com.example.Dingle.noise.service.noise;
 
 import com.example.Dingle.district.entity.District;
 import com.example.Dingle.district.repository.DistrictRepository;
-import com.example.Dingle.environment.dto.NoiseResponse;
-import com.example.Dingle.environment.dto.NoiseRowDTO;
-import com.example.Dingle.environment.entity.Noise;
-import com.example.Dingle.environment.repository.NoiseRepository;
+import com.example.Dingle.noise.dto.noise.NoiseResponse;
+import com.example.Dingle.noise.dto.noise.NoiseRowDTO;
+import com.example.Dingle.noise.entity.Noise;
+import com.example.Dingle.noise.repository.NoiseRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import lombok.RequiredArgsConstructor;

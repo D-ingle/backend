@@ -1,6 +1,5 @@
-package com.example.Dingle.environment.dto;
+package com.example.Dingle.noise.dto.noise;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -11,14 +10,10 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JacksonXmlRootElement(localName = "IotVdata018")
-public class FloatingPopulationResponse {
-
-    @JacksonXmlProperty(localName = "list_total_count")
-    private int totalCount;
+@JacksonXmlRootElement(localName = "IotVdata017")
+public class NoiseResponse {
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "row")
-    private List<FloatingPopulationRowDTO> rows;
+    private List<NoiseRowDTO> rows;
 }
