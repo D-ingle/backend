@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class NoiseLocationRawDto {
+public class NoiseLocationRowDto {
     private String serial;
     private String address;
     private double latitude;

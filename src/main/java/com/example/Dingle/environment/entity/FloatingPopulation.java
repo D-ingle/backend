@@ -33,4 +33,20 @@ public class FloatingPopulation {
 
     @Column(nullable = false)
     private boolean isWeekend;
+
+    public FloatingPopulation(
+            District district,
+            int time,
+            int population,
+            double latitude,
+            double longitude,
+            boolean isWeekend
+    ) {
+        this.district = district;
+        this.time = time;
+        this.population = population;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.isWeekend = isWeekend;
+    }
 }
