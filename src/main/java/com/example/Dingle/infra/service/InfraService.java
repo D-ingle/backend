@@ -93,6 +93,8 @@ public class InfraService {
                 ))
                 .toList();
         infraRepository.saveAll(convenienceStore);
+    }
+    
     public void saveHospitalInfra(String districtName) {
 
         District district = districtRepository.findByDistrictName(districtName)
