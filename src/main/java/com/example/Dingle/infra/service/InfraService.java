@@ -5,7 +5,6 @@ import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.infra.dto.CctvLocationDto;
-import com.example.Dingle.infra.dto.MarketLocationDTO;
 import com.example.Dingle.infra.dto.convenienceStore.ConvenienceStoreLocationDTO;
 import com.example.Dingle.infra.dto.hospital.HospitalLocationDTO;
 import com.example.Dingle.infra.dto.market.MarketLocationDTO;
