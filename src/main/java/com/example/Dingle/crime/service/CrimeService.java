@@ -56,7 +56,7 @@ public class CrimeService {
 
                 crimeProneAreaRepository.insertNative(
                         district.getId(),
-                        crimeType,
+                        crimeType.name(),
                         riskLevel,
                         wkt
                 );

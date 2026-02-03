@@ -32,7 +32,7 @@ public interface CrimeProneAreaRepository extends JpaRepository<CrimeProneArea, 
         """, nativeQuery = true)
     void insertNative(
             @Param("districtId") Long districtId,
-            @Param("crimeType") CrimeType crimeType,
+            @Param("crimeType") String crimeType,
             @Param("riskLevel") int riskLevel,
             @Param("wkt") String wkt
     );
