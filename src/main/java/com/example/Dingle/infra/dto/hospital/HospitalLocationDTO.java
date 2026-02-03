@@ -1,4 +1,4 @@
-package com.example.Dingle.infra.dto;
+package com.example.Dingle.infra.dto.hospital;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class MarketLocationDTO {
+@AllArgsConstructor
+public class HospitalLocationDTO {
     private String district;
     private String name;
+    private String hospitalType;
     private String loadAddress;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 }

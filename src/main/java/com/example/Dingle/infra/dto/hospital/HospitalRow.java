@@ -1,4 +1,4 @@
-package com.example.Dingle.infra.dto;
+package com.example.Dingle.infra.dto.hospital;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -8,10 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MarketRow {
+public class HospitalRow {
 
     @JacksonXmlProperty(localName = "BPLCNM")
     private String name;
+
+    @JacksonXmlProperty(localName = "UPTAENM")
+    private String hospitalType;
 
     @JacksonXmlProperty(localName = "RDNWHLADDR")
     private String roadAddress;
@@ -20,8 +23,8 @@ public class MarketRow {
     private String siteAddress;
 
     @JacksonXmlProperty(localName = "X")
-    private double x;
+    private Double x;
 
     @JacksonXmlProperty(localName = "Y")
-    private double y;
+    private Double y;
 }

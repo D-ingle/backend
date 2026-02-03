@@ -5,7 +5,8 @@ import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.infra.dto.CctvLocationDto;
-import com.example.Dingle.infra.dto.MarketLocationDTO;
+import com.example.Dingle.infra.dto.hospital.HospitalLocationDTO;
+import com.example.Dingle.infra.dto.market.MarketLocationDTO;
 import com.example.Dingle.infra.entity.Infra;
 import com.example.Dingle.infra.repository.InfraRepository;
 import com.example.Dingle.infra.type.Category;
@@ -21,6 +22,7 @@ import java.util.List;
 public class InfraService {
     private final CctvService cctvService;
     private final MarketService marketService;
+    private final HospitalService hospitalService;
     private final DistrictRepository districtRepository;
     private final InfraRepository infraRepository;
 
@@ -65,5 +67,29 @@ public class InfraService {
                 ))
                 .toList();
         infraRepository.saveAll(market);
+    }
+
+    @Transactional
+    public void saveHospitalInfra(String districtName) {
+
+        District district = districtRepository.findByDistrictName(districtName)
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
+
+        List<HospitalLocationDTO> hospitalLocations = hospitalService.getHospitalLocations(districtName);
+
+        List<Infra> hospital = hospitalLocations.stream()
+                .filter(dto -> dto.getLatitude() != null && dto.getLongitude() != null)
+                .map(dto -> new Infra(
+                        district,
+                        Category.CONVENIENCE,
+                        InfraType.HOSPITAL,
+                        dto.getName(),
+                        dto.getHospitalType(),
+                        dto.getLoadAddress(),
+                        dto.getLatitude(),
+                        dto.getLongitude()
+                ))
+                .toList();
+        infraRepository.saveAll(hospital);
     }
 }
