@@ -1,5 +1,6 @@
 package com.example.Dingle.user.repository;
 
+import com.example.Dingle.property.entity.Property;
 import com.example.Dingle.user.entity.SavedProperty;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,5 @@ public interface SavedPropertyRepository extends JpaRepository<SavedProperty, Lo
     boolean existsByUserIdAndPropertyId(String userId, Long propertyId);
     Optional<SavedProperty> findByUserIdAndPropertyId(String userId, Long propertyId);
     void deleteByUserIdAndPropertyId(String userId, Long propertyId);
+    List<SavedProperty> findAllByUserId(String userId);
 }
