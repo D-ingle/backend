@@ -11,6 +11,7 @@ import com.example.Dingle.safety.repository.PoliceOfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,6 +28,7 @@ public class PoliceOfficeService {
 
     private static final String BASE_URL = "https://api.odcloud.kr/api/15077036/v1/uddi:6b371c66-09a5-4efd-8445-bfd53672542e";
 
+    @Transactional
     public void savePoliceOffices() {
 
         District district = districtRepository.findByDistrictName("구로구")
