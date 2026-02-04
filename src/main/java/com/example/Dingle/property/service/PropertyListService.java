@@ -4,6 +4,7 @@ import com.example.Dingle.global.exception.AuthException;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.AuthErrorMessage;
 import com.example.Dingle.global.message.BusinessErrorMessage;
+import com.example.Dingle.property.dto.PropertyCompareDTO;
 import com.example.Dingle.property.dto.PropertyListDTO;
 import com.example.Dingle.property.entity.Property;
 import com.example.Dingle.property.repository.PropertyRepository;
@@ -13,6 +14,7 @@ import com.example.Dingle.user.repository.SavedPropertyRepository;
 import com.example.Dingle.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -83,6 +85,41 @@ public class PropertyListService {
                 )
                 .toList();
 
+    }
+
+    public List<PropertyCompareDTO> getPropertyCompare(String userId, List<Long> propertyIds) {
+
+        if(propertyIds == null || propertyIds.isEmpty()) return List.of();
+
+        if(propertyIds.size() > 3) {
+            throw new BusinessException(BusinessErrorMessage.EXCEED_COMPARE_LIMIT);
+        }
+
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
+
+        List<Long> savedIds = savedPropertyRepository.findAllByUserIdAndPropertyIdIn(String.valueOf(user.getId()), propertyIds)
+                .stream()
+                .map(SavedProperty::getPropertyId)
+                .toList();
+
+        if(savedIds.size() != propertyIds.size()){
+            throw new BusinessException(BusinessErrorMessage.FORBIDDEN_PROPERTY_COMPARE);
+        }
+
+        List<Property> properties = propertyRepository.findAllByIdInWithScore(propertyIds);
+
+        Map<Long, Property> propertyMap = properties.stream()
+                .collect(Collectors.toMap(Property::getId, p -> p));
+
+        List<PropertyCompareDTO> result = new ArrayList<>();
+
+        for (Long id : propertyIds) {
+            Property property = propertyMap.get(id);
+
+            result.add(PropertyCompareDTO.from(property));
+        }
+        return result;
     }
 
     private PropertyListDTO.DealInfo getDealInfo(Property property) {

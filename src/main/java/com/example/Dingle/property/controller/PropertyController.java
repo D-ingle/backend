@@ -1,6 +1,7 @@
 package com.example.Dingle.property.controller;
 
 import com.example.Dingle.global.dto.ResponseDTO;
+import com.example.Dingle.property.dto.PropertyCompareDTO;
 import com.example.Dingle.property.dto.PropertyListDTO;
 import com.example.Dingle.property.dto.PropertyRegisterRequestDTO;
 import com.example.Dingle.property.service.PropertyListService;
@@ -42,6 +43,13 @@ public class PropertyController {
     public ResponseEntity<ResponseDTO<List<PropertyListDTO>>> likeList(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
         List<PropertyListDTO> response = propertyListService.getLikePropertyList(userDetails.getUsername());
+        return ResponseEntity.ok(ResponseDTO.success(response));
+    }
+
+    @GetMapping("/compare")
+    public ResponseEntity<ResponseDTO<List<PropertyCompareDTO>>> compareList(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam("propertyIds") List<Long> propertyIds) {
+
+        List<PropertyCompareDTO> response = propertyListService.getPropertyCompare(userDetails.getUsername(), propertyIds);
         return ResponseEntity.ok(ResponseDTO.success(response));
     }
 }
