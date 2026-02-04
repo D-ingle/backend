@@ -10,5 +10,6 @@ public enum InfraType {
     HOSPITAL,
     EMERGENCY_MEDICAL_CENTER,
     HEAT_SHELTER,
-    COLD_SHELTER
+    COLD_SHELTER,
+    SAFETY_LIGHT
 }
