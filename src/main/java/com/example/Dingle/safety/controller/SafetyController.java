@@ -14,7 +14,7 @@ public class SafetyController {
     private final SafetyService safetyService;
 
     @PostMapping("/safety-light")
-    public void saveCctvInfra() {
+    public void saveSafetyLightInfra() {
         safetyService.saveSafetyLightInfra();
     }
 }
