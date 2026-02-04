@@ -22,4 +22,9 @@ public class PoliceOffice {
     private String address;
     private Double latitude;
     private Double longitude;
+
+    public PoliceOffice(District district, String address) {
+        this.district = district;
+        this.address = address;
+    }
 }
