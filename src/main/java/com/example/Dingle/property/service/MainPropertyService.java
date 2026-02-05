@@ -5,9 +5,12 @@ import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.onboarding.repository.PreferredDistrictRepository;
 import com.example.Dingle.property.dto.*;
 import com.example.Dingle.property.entity.Property;
+import com.example.Dingle.property.entity.PropertyImage;
 import com.example.Dingle.property.entity.PropertyScore;
+import com.example.Dingle.property.repository.PropertyImageRepository;
 import com.example.Dingle.property.repository.PropertyRepository;
 import com.example.Dingle.property.repository.PropertyScoreRepository;
+import com.example.Dingle.property.type.ImageType;
 import com.example.Dingle.property.type.PropertyType;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.repository.SavedPropertyRepository;
@@ -38,13 +41,15 @@ public class MainPropertyService {
     private final PropertyRepository propertyRepository;
     private final PropertyScoreRepository propertyScoreRepository;
     private final SavedPropertyRepository savedPropertyRepository;
+    private final PropertyImageRepository propertyImageRepository;
 
-    public MainPropertyService(UserRepository userRepository, PreferredDistrictRepository preferredDistrictRepository, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, SavedPropertyRepository savedPropertyRepository) {
+    public MainPropertyService(UserRepository userRepository, PreferredDistrictRepository preferredDistrictRepository, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, SavedPropertyRepository savedPropertyRepository, PropertyImageRepository propertyImageRepository) {
         this.userRepository = userRepository;
         this.preferredDistrictRepository = preferredDistrictRepository;
         this.propertyRepository = propertyRepository;
         this.propertyScoreRepository = propertyScoreRepository;
         this.savedPropertyRepository = savedPropertyRepository;
+        this.propertyImageRepository = propertyImageRepository;
     }
 
     public MainPropertyResponseDTO getMainProperty(String userId, List<Long> selectConditions, PropertyType propertyType, Long cursor, Long size) {
@@ -140,6 +145,13 @@ public class MainPropertyService {
         Map<Long, Property> propertyMap = properties.stream()
                 .collect(Collectors.toMap( Property::getId, Function.identity() ));
 
+        List<PropertyImage> images = propertyImageRepository.findAllByProperty_IdInAndImageTypeOrderByProperty_IdAsc(pagePropertyIds, ImageType.PROPERTY);
+        Map<Long, String> mainImage = new HashMap<>();
+        for(PropertyImage image : images) {
+            Long id = image.getProperty().getId();
+            mainImage.put(id, image.getImageUrl());
+        }
+
         List<MainPropertyResponseDTO.PropertyItem> items = pagedList.stream()
                 .map(cs -> {
                     Property property = propertyMap.get(cs.getPropertyId());
@@ -150,6 +162,7 @@ public class MainPropertyService {
 
                     return MainPropertyResponseDTO.PropertyItem.builder()
                             .propertyId(property.getId())
+                            .imageUrl(mainImage.get(property.getId()))
                             .propertyType(property.getPropertyType())
                             .apartmentName(property.getApartmentName())
                             .exclusiveArea(property.getExclusiveArea())
