@@ -27,4 +27,8 @@ public class PropertyDescription {
     public void updateEnvironmentDescription(String explanation) {
         this.environmentDescription = explanation;
     }
+
+    public void updateConvenienceDescription(String description) {
+        this.convenienceDescription = description;
+    }
 }
