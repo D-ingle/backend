@@ -17,4 +17,12 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
         WHERE p.id IN :ids
     """)
     List<Property> findAllByIdInWithDetails(@Param("ids") List<Long> ids);
+
+    @Query("""
+        SELECT DISTINCT p FROM Property p
+        LEFT JOIN FETCH p.score
+        where p.id IN :ids
+    """)
+    List<Property> findAllByIdInWithScore(@Param("ids") List<Long> ids);
+
 }

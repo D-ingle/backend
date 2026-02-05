@@ -20,6 +20,7 @@ public class DetailPropertyDTO {
     private DealInfo deal;
     private List<Integer> conditions;
     private PropertyInfo propertyInfo;
+    private PropertyImages images;
     private Option option;
     private Facility facility;
     private RealtorInfo realtorInfo;
@@ -44,6 +45,14 @@ public class DetailPropertyDTO {
         private boolean liked;
         private double latitude;
         private double longitude;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class PropertyImages {
+        private String floorImageUrl;
+        private List<String> propertyImageUrls;
     }
 
     @Getter

@@ -25,6 +25,7 @@ public class MainPropertyResponseDTO {
     @AllArgsConstructor
     public static class PropertyItem {
         private Long propertyId;
+        private String imageUrl;
         private PropertyType propertyType;
         private String apartmentName;
         private Double exclusiveArea;

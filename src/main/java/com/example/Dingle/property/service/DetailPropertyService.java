@@ -2,13 +2,10 @@ package com.example.Dingle.property.service;
 
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
-import com.example.Dingle.onboarding.repository.PreferredConditionRepository;
 import com.example.Dingle.property.dto.DetailPropertyDTO;
-import com.example.Dingle.property.entity.Property;
-import com.example.Dingle.property.entity.PropertyFacility;
-import com.example.Dingle.property.entity.PropertyOption;
-import com.example.Dingle.property.entity.PropertyScore;
+import com.example.Dingle.property.entity.*;
 import com.example.Dingle.property.repository.*;
+import com.example.Dingle.property.type.ImageType;
 import com.example.Dingle.realtor.entity.Realtor;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.repository.SavedPropertyRepository;
@@ -27,14 +24,16 @@ public class DetailPropertyService {
     private final PropertyFacilityRepository propertyFacilityRepository;
     private final PropertyScoreRepository propertyScoreRepository;
     private final SavedPropertyRepository savedPropertyRepository;
+    private final PropertyImageRepository propertyImageRepository;
 
-    public DetailPropertyService(UserRepository userRepository, PropertyRepository propertyRepository, PropertyOptionRepository propertyOptionRepository, PropertyFacilityRepository propertyFacilityRepository, PropertyScoreRepository propertyScoreRepository, SavedPropertyRepository savedPropertyRepository) {
+    public DetailPropertyService(UserRepository userRepository, PropertyRepository propertyRepository, PropertyOptionRepository propertyOptionRepository, PropertyFacilityRepository propertyFacilityRepository, PropertyScoreRepository propertyScoreRepository, SavedPropertyRepository savedPropertyRepository, PropertyImageRepository propertyImageRepository) {
         this.userRepository = userRepository;
         this.propertyRepository = propertyRepository;
         this.propertyOptionRepository = propertyOptionRepository;
         this.propertyFacilityRepository = propertyFacilityRepository;
         this.propertyScoreRepository = propertyScoreRepository;
         this.savedPropertyRepository = savedPropertyRepository;
+        this.propertyImageRepository = propertyImageRepository;
     }
 
     public DetailPropertyDTO getDetailProperty(String userId, Long propertyId) {
@@ -44,6 +43,14 @@ public class DetailPropertyService {
 
         Property property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
+
+        PropertyImage floorImage = propertyImageRepository.findByProperty_IdAndImageType(propertyId, ImageType.FLOOR_IMAGE);
+        String floorImageUrl = (floorImage != null) ? floorImage.getImageUrl() : null;
+
+        List<PropertyImage> propertyImages = propertyImageRepository.findAllByProperty_IdAndImageType(propertyId, ImageType.PROPERTY);
+        List<String> propertyImageUrls = propertyImages.stream()
+                .map(PropertyImage::getImageUrl)
+                .toList();
 
         PropertyScore propertyScores = propertyScoreRepository.findAllByPropertyId(propertyId);
         Map<Integer, Integer> scoreMap = Map.of(
@@ -106,6 +113,10 @@ public class DetailPropertyService {
                         .liked(isLiked)
                         .longitude(property.getLongitude())
                         .latitude(property.getLatitude())
+                        .build())
+                .images(DetailPropertyDTO.PropertyImages.builder()
+                        .floorImageUrl(floorImageUrl)
+                        .propertyImageUrls(propertyImageUrls)
                         .build())
                 .option(DetailPropertyDTO.Option.builder()
                         .optionCount(optionList.size())

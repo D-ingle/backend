@@ -3,13 +3,14 @@ package com.example.Dingle.property.service;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.onboarding.repository.PreferredDistrictRepository;
-import com.example.Dingle.property.dto.CalculatedScoreDTO;
-import com.example.Dingle.property.dto.MainPropertyResponseDTO;
-import com.example.Dingle.property.dto.PropertyScoreDTO;
+import com.example.Dingle.property.dto.*;
 import com.example.Dingle.property.entity.Property;
+import com.example.Dingle.property.entity.PropertyImage;
 import com.example.Dingle.property.entity.PropertyScore;
+import com.example.Dingle.property.repository.PropertyImageRepository;
 import com.example.Dingle.property.repository.PropertyRepository;
 import com.example.Dingle.property.repository.PropertyScoreRepository;
+import com.example.Dingle.property.type.ImageType;
 import com.example.Dingle.property.type.PropertyType;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.repository.SavedPropertyRepository;
@@ -40,16 +41,18 @@ public class MainPropertyService {
     private final PropertyRepository propertyRepository;
     private final PropertyScoreRepository propertyScoreRepository;
     private final SavedPropertyRepository savedPropertyRepository;
+    private final PropertyImageRepository propertyImageRepository;
 
-    public MainPropertyService(UserRepository userRepository, PreferredDistrictRepository preferredDistrictRepository, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, SavedPropertyRepository savedPropertyRepository) {
+    public MainPropertyService(UserRepository userRepository, PreferredDistrictRepository preferredDistrictRepository, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, SavedPropertyRepository savedPropertyRepository, PropertyImageRepository propertyImageRepository) {
         this.userRepository = userRepository;
         this.preferredDistrictRepository = preferredDistrictRepository;
         this.propertyRepository = propertyRepository;
         this.propertyScoreRepository = propertyScoreRepository;
         this.savedPropertyRepository = savedPropertyRepository;
+        this.propertyImageRepository = propertyImageRepository;
     }
 
-    public MainPropertyResponseDTO getMainProperty(String userId, List<Long> selectConditions,PropertyType propertyType, Long cursor, Long size) {
+    public MainPropertyResponseDTO getMainProperty(String userId, List<Long> selectConditions, PropertyType propertyType, Long cursor, Long size) {
 
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.USER_NOT_EXISTS));
@@ -57,6 +60,46 @@ public class MainPropertyService {
         List<Long> districtIds = preferredDistrictRepository.findPreferredDistrictByUserPk(user.getId());
         if (districtIds.isEmpty()) districtIds = DEFAULT_DISTRICT_IDS;
 
+        PropertySearchFilterDTO filter = PropertySearchFilterDTO.builder()
+                .keyword(null)
+                .propertyType(propertyType)
+                .build();
+
+        return getPropertyByScoreRanking(user, districtIds, filter, selectConditions, cursor, size);
+    }
+
+    public MainPropertyResponseDTO searchProperty(String userId, PropertySearchRequestDTO request) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.USER_NOT_EXISTS));
+
+        List<Long> onboardingDistrictIds = preferredDistrictRepository.findPreferredDistrictByUserPk(user.getId());
+        if (onboardingDistrictIds.isEmpty()) onboardingDistrictIds = DEFAULT_DISTRICT_IDS;
+
+        List<Long> districtIds;
+        if(request.getDistrictIds() == null) districtIds = onboardingDistrictIds;
+        else if (request.getDistrictIds().isEmpty()) districtIds = null;
+        else districtIds = request.getDistrictIds();
+
+        PropertySearchFilterDTO filter = PropertySearchFilterDTO.builder()
+                .keyword(request.getKeyword())
+                .propertyType(request.getPropertyType())
+                .districtIds(districtIds)
+                .dealType(request.getDealType())
+                .minPrice(request.getMinPrice())
+                .maxPrice(request.getMaxPrice())
+                .minDeposit(request.getMinDeposit())
+                .maxDeposit(request.getMaxDeposit())
+                .minMonthlyRent(request.getMinMonthlyRent())
+                .maxMonthlyRent(request.getMaxMonthlyRent())
+                .minExclusiveArea(request.getMinExclusiveArea())
+                .maxExclusiveArea(request.getMaxExclusiveArea())
+                .build();
+
+        return getPropertyByScoreRanking(user, null, filter, request.getSelectConditions(), request.getCursor(), request.getSize());
+    }
+
+
+    private MainPropertyResponseDTO getPropertyByScoreRanking(User user, List<Long> districtIds, PropertySearchFilterDTO filter, List<Long> selectConditions, Long cursor, Long size) {
         List<PreferredConditionDTO> conditions = new ArrayList<>();
         for (int i = 0; i < Math.min(selectConditions.size(), 3); i++) {
             conditions.add(new PreferredConditionDTO(selectConditions.get(i), i + 1));
@@ -74,11 +117,10 @@ public class MainPropertyService {
                 .map(PreferredConditionDTO::getConditionId)
                 .collect(Collectors.toSet());
 
-        List<PropertyScore> scoreData = propertyScoreRepository.findScoresByTypeAndDistricts(propertyType, districtIds);
+        List<PropertyScore> scoreData = propertyScoreRepository.findListForMain(filter, districtIds);
 
-        List<CalculatedScoreDTO> rankedList;
         final List<PreferredConditionDTO> prefer = conditions;
-        rankedList = scoreData.stream()
+        List<CalculatedScoreDTO> rankedList = scoreData.stream()
                 .map(entity -> {
                     PropertyScoreDTO dto = PropertyScore.fromEntity(entity);
                     double score = ScoreCalc.calculate(dto, prefer);
@@ -103,6 +145,13 @@ public class MainPropertyService {
         Map<Long, Property> propertyMap = properties.stream()
                 .collect(Collectors.toMap( Property::getId, Function.identity() ));
 
+        List<PropertyImage> images = propertyImageRepository.findAllByProperty_IdInAndImageTypeOrderByProperty_IdAsc(pagePropertyIds, ImageType.PROPERTY);
+        Map<Long, String> mainImage = new HashMap<>();
+        for(PropertyImage image : images) {
+            Long id = image.getProperty().getId();
+            mainImage.putIfAbsent(id, image.getImageUrl());
+        }
+
         List<MainPropertyResponseDTO.PropertyItem> items = pagedList.stream()
                 .map(cs -> {
                     Property property = propertyMap.get(cs.getPropertyId());
@@ -113,6 +162,7 @@ public class MainPropertyService {
 
                     return MainPropertyResponseDTO.PropertyItem.builder()
                             .propertyId(property.getId())
+                            .imageUrl(mainImage.get(property.getId()))
                             .propertyType(property.getPropertyType())
                             .apartmentName(property.getApartmentName())
                             .exclusiveArea(property.getExclusiveArea())

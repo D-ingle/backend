@@ -1,13 +1,16 @@
 package com.example.Dingle.property.controller;
 
 import com.example.Dingle.global.dto.ResponseDTO;
+import com.example.Dingle.property.dto.PropertyCompareDTO;
 import com.example.Dingle.property.dto.PropertyListDTO;
 import com.example.Dingle.property.dto.PropertyRegisterRequestDTO;
 import com.example.Dingle.property.service.PropertyListService;
 import com.example.Dingle.property.service.PropertyService;
+import com.example.Dingle.user.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +36,20 @@ public class PropertyController {
     public ResponseEntity<ResponseDTO<List<PropertyListDTO>>> recentView(@RequestParam("propertyIds") List<Long> propertyIds) {
 
         List<PropertyListDTO> response = propertyListService.getPropertyList(propertyIds);
+        return ResponseEntity.ok(ResponseDTO.success(response));
+    }
+
+    @GetMapping("/zzim")
+    public ResponseEntity<ResponseDTO<List<PropertyListDTO>>> likeList(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        List<PropertyListDTO> response = propertyListService.getLikePropertyList(userDetails.getUsername());
+        return ResponseEntity.ok(ResponseDTO.success(response));
+    }
+
+    @GetMapping("/compare")
+    public ResponseEntity<ResponseDTO<List<PropertyCompareDTO>>> compareList(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam("propertyIds") List<Long> propertyIds) {
+
+        List<PropertyCompareDTO> response = propertyListService.getPropertyCompare(userDetails.getUsername(), propertyIds);
         return ResponseEntity.ok(ResponseDTO.success(response));
     }
 }

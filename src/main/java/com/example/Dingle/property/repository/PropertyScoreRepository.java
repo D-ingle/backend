@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PropertyScoreRepository extends JpaRepository<PropertyScore, Long> {
+public interface PropertyScoreRepository extends JpaRepository<PropertyScore, Long>, PropertyScoreRepositoryCustom {
     PropertyScore findAllByPropertyId(Long propertyId);
     @Query("""
         select ps

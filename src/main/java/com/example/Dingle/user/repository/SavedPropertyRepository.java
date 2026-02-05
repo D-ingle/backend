@@ -12,4 +12,6 @@ public interface SavedPropertyRepository extends JpaRepository<SavedProperty, Lo
     boolean existsByUserIdAndPropertyId(String userId, Long propertyId);
     Optional<SavedProperty> findByUserIdAndPropertyId(String userId, Long propertyId);
     void deleteByUserIdAndPropertyId(String userId, Long propertyId);
+    List<SavedProperty> findAllByUserId(String userId);
+    List<SavedProperty> findAllByUserIdAndPropertyIdIn(String userId, List<Long> propertyIds);
 }
