@@ -31,5 +31,5 @@ public class Traffic {
     private String busNumber;
 
     @Column(nullable = false)
-    private int timeTaken;
+    private int distance;
 }
