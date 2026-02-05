@@ -1,9 +1,12 @@
 package com.example.Dingle.user.controller;
 
 import com.example.Dingle.global.dto.ResponseDTO;
+import com.example.Dingle.global.message.AuthErrorMessage;
+import com.example.Dingle.global.message.DefaultErrorMessage;
 import com.example.Dingle.user.dto.CustomUserDetails;
 import com.example.Dingle.user.dto.DestinationDTO;
 import com.example.Dingle.user.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,9 @@ public class UserController {
 
     @PostMapping("/destination")
     public ResponseEntity<ResponseDTO<Void>> saveDestination(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody DestinationDTO destinationDTO) {
+        if(customUserDetails == null){
+            return ResponseEntity.status(AuthErrorMessage.USER_NOT_EXIST.getHttpStatus()).body(ResponseDTO.fail(AuthErrorMessage.USER_NOT_EXIST));
+        }
         userService.saveAndUpdate(customUserDetails.getUsername(), destinationDTO);
         return ResponseEntity.ok(ResponseDTO.success(null));
     }

@@ -25,7 +25,7 @@ public class UserService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
 
-        if(destinationDTO.getDestinationName() == null || destinationDTO.getDestinationAddress() == null) {
+        if(destinationDTO.getDestinationName() == null || destinationDTO.getDestinationName().isBlank() || destinationDTO.getDestinationAddress() == null ||destinationDTO.getDestinationAddress().isBlank()) {
             throw new BusinessException(BusinessErrorMessage.INVALID_DESTINATION);
         }
 
