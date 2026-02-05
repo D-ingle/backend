@@ -39,4 +39,8 @@ public class PropertyScore {
     public void updateEnvironmentScore(int environmentScore) {
         this.environmentScore = environmentScore;
     }
+
+    public void updateConvenienceScore(int score) {
+        this.convenienceScore = score;
+    }
 }

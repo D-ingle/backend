@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class PropertyExplanationService {
+public class EnvironmentExplanationService {
 
     private final PropertyRepository propertyRepository;
     private final SlopeRepository slopeRepository;
@@ -80,8 +80,6 @@ public class PropertyExplanationService {
         } catch (Exception e) {
             throw new RuntimeException("request failed", e);
         }
-
-        System.out.println(explanation);
 
         PropertyDescription description = descriptionRepository
                 .findByPropertyId(propertyId)
