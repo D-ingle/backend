@@ -45,7 +45,7 @@ public class DetailPropertyService {
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
 
         PropertyImage floorImage = propertyImageRepository.findByProperty_IdAndImageType(propertyId, ImageType.FLOOR_IMAGE);
-        String floorImageUrl = floorImage.getImageUrl();
+        String floorImageUrl = (floorImage != null) ? floorImage.getImageUrl() : null;
 
         List<PropertyImage> propertyImages = propertyImageRepository.findAllByProperty_IdAndImageType(propertyId, ImageType.PROPERTY);
         List<String> propertyImageUrls = propertyImages.stream()

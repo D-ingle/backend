@@ -149,7 +149,7 @@ public class MainPropertyService {
         Map<Long, String> mainImage = new HashMap<>();
         for(PropertyImage image : images) {
             Long id = image.getProperty().getId();
-            mainImage.put(id, image.getImageUrl());
+            mainImage.putIfAbsent(id, image.getImageUrl());
         }
 
         List<MainPropertyResponseDTO.PropertyItem> items = pagedList.stream()
