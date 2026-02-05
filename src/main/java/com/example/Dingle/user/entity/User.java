@@ -34,6 +34,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
+    @Column(name = "destination_name")
+    private String destinationName;
+    @Column(name = "destination_address")
+    private String destinationAddress;
+    @Column(name = "destination_updated_at")
+    private LocalDateTime destinationUpdatedAt;
+
     private LocalDateTime createdAt;
     private LocalDateTime onboardedAt;
+
+    public void upsertDestination(String destinationName, String destinationAddress) {
+        this.destinationName = destinationName;
+        this.destinationAddress = destinationAddress;
+        this.destinationUpdatedAt = LocalDateTime.now();
+    }
 }
