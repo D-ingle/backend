@@ -14,6 +14,7 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     USER_NOT_EXISTS(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
     DUPLICATE_USER_ID(HttpStatus.CONFLICT,"이미 사용중인 아이디입니다."),
     DUPLICATE_USER_EMAIL(HttpStatus.CONFLICT,"이미 사용중인 이메일입니다."),
+    INVALID_DESTINATION(HttpStatus.BAD_REQUEST, "목적지 정보가 올바르지 않습니다."),
 
     // 지역구, 선호 조건
     ALREADY_ONBOARDED(HttpStatus.CONFLICT, "온보딩은 최초 1회만 가능합니다."),
