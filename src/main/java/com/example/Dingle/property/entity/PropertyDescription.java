@@ -23,4 +23,8 @@ public class PropertyDescription {
     private String noiseDescription;
     private String convenienceDescription;
     private String accessibilityDescription;
+
+    public void updateEnvironmentDescription(String explanation) {
+        this.environmentDescription = explanation;
+    }
 }
