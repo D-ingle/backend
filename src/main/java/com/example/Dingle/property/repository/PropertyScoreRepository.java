@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PropertyScoreRepository extends JpaRepository<PropertyScore, Long> {
+public interface PropertyScoreRepository extends JpaRepository<PropertyScore, Long>, PropertyScoreRepositoryCustom {
     PropertyScore findAllByPropertyId(Long propertyId);
     @Query("""
         select ps
