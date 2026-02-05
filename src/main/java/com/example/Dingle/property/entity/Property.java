@@ -53,9 +53,9 @@ public class Property {
 
     private LocalDateTime registeredAt;
 
-    @OneToOne(mappedBy = "property")
+    @OneToOne(mappedBy = "property", fetch = FetchType.LAZY)
     private PropertyDeal deal;
 
-    @OneToOne(mappedBy = "property")
+    @OneToOne(mappedBy = "property", fetch = FetchType.LAZY)
     private PropertyScore score;
 }
