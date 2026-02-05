@@ -18,9 +18,9 @@ public class PropertyDescription {
     @JoinColumn(name = "property_id")
     private Property property;
 
-    private int safetyDescription;
-    private int environmentDescription;
-    private int noiseDescription;
-    private int convenienceDescription;
-    private int accessibilityDescription;
+    private String safetyDescription;
+    private String environmentDescription;
+    private String noiseDescription;
+    private String convenienceDescription;
+    private String accessibilityDescription;
 }
