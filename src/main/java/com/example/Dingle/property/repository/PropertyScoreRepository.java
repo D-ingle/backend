@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PropertyScoreRepository extends JpaRepository<PropertyScore, Long>, PropertyScoreRepositoryCustom {
@@ -20,4 +21,6 @@ public interface PropertyScoreRepository extends JpaRepository<PropertyScore, Lo
             and p.district.id in :districtIds
     """)
     List<PropertyScore> findScoresByTypeAndDistricts(@Param("propertyType") PropertyType propertyType, @Param("districtIds") List<Long> districtIds);
+
+    Optional<PropertyScore> findByPropertyId(Long propertyId);
 }

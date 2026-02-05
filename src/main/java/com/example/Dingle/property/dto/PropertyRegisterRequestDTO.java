@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class PropertyRegisterRequestDTO {
-    private String appartmentName;
+    private String apartmentName;
     private String address;
     private PropertyType propertyType;
 
@@ -30,4 +30,7 @@ public class PropertyRegisterRequestDTO {
     private List<FacilityType> facilities;
     private List<OptionType> options;
     private DealRequestDTO deal;
+
+    private String floorImageUrl;
+    private List<String> propertyImageUrls;
 }

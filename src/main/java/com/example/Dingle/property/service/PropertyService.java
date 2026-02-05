@@ -9,6 +9,7 @@ import com.example.Dingle.property.dto.PropertyRegisterRequestDTO;
 import com.example.Dingle.property.entity.*;
 import com.example.Dingle.property.repository.*;
 import com.example.Dingle.property.type.FacilityType;
+import com.example.Dingle.property.type.ImageType;
 import com.example.Dingle.property.type.OptionType;
 import com.example.Dingle.realtor.entity.Realtor;
 import com.example.Dingle.realtor.repository.RealtorRepository;
@@ -30,6 +31,7 @@ public class PropertyService {
     private final PropertyFacilityRepository propertyFacilityRepository;
     private final RealtorRepository realtorRepository;
     private final DistrictRepository districtRepository;
+    private final PropertyImageRepository propertyImageRepository;
 
     @Transactional
     public void register(PropertyRegisterRequestDTO request) {
@@ -44,7 +46,7 @@ public class PropertyService {
                 Property.builder()
                         .realtor(realtor)
                         .district(district)
-                        .apartmentName(request.getAppartmentName())
+                        .apartmentName(request.getApartmentName())
                         .address(request.getAddress())
                         .exclusiveArea(request.getExclusiveArea())
                         .supplyArea(request.getSupplyArea())
@@ -61,6 +63,7 @@ public class PropertyService {
         saveDeal(property, request.getDeal());
         saveOptions(property, request.getOptions());
         saveFacilities(property, request.getFacilities());
+        saveImages(property, request);
     }
 
     private void saveDeal(Property property, DealRequestDTO deal) {
@@ -84,5 +87,30 @@ public class PropertyService {
         facilities.forEach(facility ->
                 propertyFacilityRepository.save(new PropertyFacility(property, facility))
         );
+    }
+
+    private void saveImages(Property property, PropertyRegisterRequestDTO request) {
+
+        if (request.getFloorImageUrl() != null) {
+            propertyImageRepository.save(
+                    new PropertyImage(
+                            property,
+                            ImageType.FLOOR_IMAGE,
+                            request.getFloorImageUrl()
+                    )
+            );
+        }
+
+        if (request.getPropertyImageUrls() != null) {
+            request.getPropertyImageUrls().forEach(url ->
+                    propertyImageRepository.save(
+                            new PropertyImage(
+                                    property,
+                                    ImageType.PROPERTY,
+                                    url
+                            )
+                    )
+            );
+        }
     }
 }

@@ -25,12 +25,9 @@ public class PropertyScore {
     @JoinColumn(name = "property_id")
     private Property property;
 
-    @Column(name = "property_id", insertable = false, updatable = false)
-    private Long propertyId;
-
     public static PropertyScoreDTO fromEntity(PropertyScore entity) {
         return PropertyScoreDTO.builder()
-                .propertyId(entity.getPropertyId())
+                .propertyId(entity.getId())
                 .noiseScore(entity.getNoiseScore())
                 .safetyScore(entity.getSafetyScore())
                 .convenienceScore(entity.getConvenienceScore())
@@ -39,4 +36,7 @@ public class PropertyScore {
                 .build();
     }
 
+    public void updateEnvironmentScore(int environmentScore) {
+        this.environmentScore = environmentScore;
+    }
 }
