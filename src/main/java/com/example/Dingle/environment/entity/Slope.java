@@ -19,6 +19,6 @@ public class Slope {
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
 
-    private double InternalValue;
-    private double NeighboringValue;
+    private double internalValue;
+    private double neighboringValue;
 }

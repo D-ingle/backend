@@ -14,7 +14,11 @@ import java.util.Map;
 public class OpenAiClient {
 
     private static final String OPENAI_URL = "https://api.openai.com/v1/chat/completions";
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+
+    public OpenAiClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Value("${openai.api-key}")
     private String apiKey;
