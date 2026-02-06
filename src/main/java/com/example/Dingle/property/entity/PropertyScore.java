@@ -36,11 +36,12 @@ public class PropertyScore {
                 .build();
     }
 
-    public void updateEnvironmentScore(int environmentScore) {
-        this.environmentScore = environmentScore;
-    }
-
+    public void updateEnvironmentScore(int score) {this.environmentScore = score;}
     public void updateConvenienceScore(int score) {
         this.convenienceScore = score;
     }
+    public void updateAccessibilityScore(int score) {
+        this.accessibilityScore = score;
+    }
+
 }
