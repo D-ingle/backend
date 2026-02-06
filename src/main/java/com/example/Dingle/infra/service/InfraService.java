@@ -135,7 +135,7 @@ public class InfraService {
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
 
         PropertyScore propertyScore = propertyScoreRepository.findByPropertyId(property.getId())
-                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_SCORE_NOT_FOUND));
 
         int score = propertyScore.getConvenienceScore();
 
