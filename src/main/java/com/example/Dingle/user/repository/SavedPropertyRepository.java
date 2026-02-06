@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface SavedPropertyRepository extends JpaRepository<SavedProperty, Long> {
-    boolean existsByUserIdAndPropertyId(String userId, Long propertyId);
-    Optional<SavedProperty> findByUserIdAndPropertyId(String userId, Long propertyId);
-    void deleteByUserIdAndPropertyId(String userId, Long propertyId);
-    List<SavedProperty> findAllByUserId(String userId);
-    List<SavedProperty> findAllByUserIdAndPropertyIdIn(String userId, List<Long> propertyIds);
+    boolean existsByUserIdAndPropertyId(Long userId, Long propertyId);
+    Optional<SavedProperty> findByUserIdAndPropertyId(Long userId, Long propertyId);
+    void deleteByUserIdAndPropertyId(Long userId, Long propertyId);
+    List<SavedProperty> findAllByUserId(Long userId);
+    List<SavedProperty> findAllByUserIdAndPropertyIdIn(Long userId, List<Long> propertyIds);
 }

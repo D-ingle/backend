@@ -43,5 +43,9 @@ public class PropertyScore {
     public void updateAccessibilityScore(int score) {
         this.accessibilityScore = score;
     }
+    public void updateNoiseScore(int score) {
+        this.noiseScore = score;
+    }
+
 
 }
