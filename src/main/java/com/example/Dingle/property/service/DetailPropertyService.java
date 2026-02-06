@@ -61,7 +61,7 @@ public class DetailPropertyService {
                 5, propertyScores.getConvenienceScore()
         );
 
-        boolean isLiked = savedPropertyRepository.existsByUserIdAndPropertyId(user.getId().toString(), propertyId);
+        boolean isLiked = savedPropertyRepository.existsByUserIdAndPropertyId(user.getId(), propertyId);
 
         List<Integer> conditionIds = scoreMap.entrySet().stream()
                 .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())

@@ -62,10 +62,10 @@ public class PropertyListService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
 
-        List<SavedProperty> savedProperties = savedPropertyRepository.findAllByUserId(String.valueOf(user.getId()));
+        List<SavedProperty> savedProperties = savedPropertyRepository.findAllByUserId(user.getId());
 
         List<Long> propertyIds = savedProperties.stream()
-                .map(SavedProperty::getPropertyId)
+                .map(saved -> saved.getProperty().getId())
                 .toList();
 
         List<Property> properties = propertyRepository.findAllByIdInWithDetails(propertyIds);
@@ -98,9 +98,9 @@ public class PropertyListService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
 
-        List<Long> savedIds = savedPropertyRepository.findAllByUserIdAndPropertyIdIn(String.valueOf(user.getId()), propertyIds)
+        List<Long> savedIds = savedPropertyRepository.findAllByUserIdAndPropertyIdIn(user.getId(), propertyIds)
                 .stream()
-                .map(SavedProperty::getPropertyId)
+                .map(saved -> saved.getProperty().getId())
                 .toList();
 
         if(savedIds.size() != propertyIds.size()){

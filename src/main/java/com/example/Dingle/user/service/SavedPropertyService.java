@@ -34,20 +34,24 @@ public class SavedPropertyService {
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
 
         // 이미 찜함
-        if (savedPropertyRepository.existsByUserIdAndPropertyId(userId, propertyId)) {
+        if (savedPropertyRepository.existsByUserIdAndPropertyId(user.getId(), propertyId)) {
             throw new BusinessException(BusinessErrorMessage.ALREADY_ZZIMED);
         }
 
-        SavedProperty savedProperty = SavedProperty.create(userId, propertyId);
+        SavedProperty savedProperty = SavedProperty.create(user, property);
         savedPropertyRepository.save(savedProperty);
     }
 
     @Transactional
     public void unsave(String userId, Long propertyId) {
+        // 유저 없음
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
+
         // 찜한 매물이 아님
-        SavedProperty savedProperty = savedPropertyRepository.findByUserIdAndPropertyId(userId, propertyId)
+        SavedProperty savedProperty = savedPropertyRepository.findByUserIdAndPropertyId(user.getId(), propertyId)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.NOT_ZZIMED));
 
-        savedPropertyRepository.deleteByUserIdAndPropertyId(userId, propertyId);
+        savedPropertyRepository.deleteByUserIdAndPropertyId(user.getId(), propertyId);
     }
 }
