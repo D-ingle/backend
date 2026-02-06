@@ -15,4 +15,5 @@ public interface PreferredConditionRepository extends JpaRepository<PreferredCon
     List<Long> findConditionIdsByUserId(@Param("userId") Long userId);
     List<PreferredCondition> findAllByUserIdOrderByPriorityAsc(Long userId);
     void deleteByUser(User user);
+    List<PreferredCondition> findByUserOrderByPriorityAsc(User user);
 }
