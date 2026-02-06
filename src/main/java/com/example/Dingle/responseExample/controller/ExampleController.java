@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExampleController {
 
     @GetMapping("/test/success")
-    @Operation(summary = "테스트 API", description = "ResponseDto 테스트용 API")
+//    @Operation(summary = "테스트 API", description = "ResponseDto 테스트용 API")
     public ResponseEntity<ResponseDTO<TestResponseDTO>> testSuccess() {
         return ResponseEntity.ok(ResponseDTO.success(new TestResponseDTO("test success")));
     }
 
     @GetMapping("/test/fail")
-    @Operation(summary = "테스트 API", description = "ResponseDto 테스트용 API")
+//    @Operation(summary = "테스트 API", description = "ResponseDto 테스트용 API")
     public ResponseEntity<ResponseDTO<TestResponseDTO>> testFail() {
         throw new BusinessException(BusinessErrorMessage.BAD_REQUEST);
     }

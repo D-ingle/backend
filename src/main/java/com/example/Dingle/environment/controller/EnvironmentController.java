@@ -16,7 +16,7 @@ public class EnvironmentController {
     private final EnvironmentService environmentService;
 
     @PostMapping("/waste")
-    @Operation(summary = "하수처리장 데이터 저장 API", description = "하수처리장 데이터를 저장합니다.")
+//    @Operation(summary = "하수처리장 데이터 저장 API", description = "하수처리장 데이터를 저장합니다.")
     public void saveWasteFacility(@RequestParam String district) {
         environmentService.saveWasteFacility(district);
     }
