@@ -32,6 +32,7 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     NOT_ZZIMED(HttpStatus.CONFLICT,"찜한 매물이 아닙니다."),
     FORBIDDEN_PROPERTY_COMPARE(HttpStatus.FORBIDDEN, "찜한 매물만 비교할 수 있습니다."),
     EXCEED_COMPARE_LIMIT(HttpStatus.BAD_REQUEST, "비교는 최대 3개 매물까지만 가능합니다."),
+    PROPERTY_EXPLANATION_NOT_EXISTS(HttpStatus.NOT_FOUND, "매물 설명을 찾을 수 없습니다."),
 
     // 공공데이터
     CCTV_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CCTV 데이터 저장에 실패했습니다."),
