@@ -158,7 +158,7 @@ public class MainPropertyService {
 
                     if(property == null) return null;
 
-                    boolean isLiked = savedPropertyRepository.existsByUserIdAndPropertyId(user.getId().toString(), property.getId());
+                    boolean isLiked = savedPropertyRepository.existsByUserIdAndPropertyId(user.getId(), property.getId());
 
                     return MainPropertyResponseDTO.PropertyItem.builder()
                             .propertyId(property.getId())

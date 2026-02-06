@@ -1,5 +1,6 @@
 package com.example.Dingle.user.entity;
 
+import com.example.Dingle.property.entity.Property;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,22 +16,24 @@ public class SavedProperty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "property_id", nullable = false)
-    private Long propertyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id")
+    private Property property;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    private SavedProperty(String userId, Long propertyId) {
-        this.userId = userId;
-        this.propertyId = propertyId;
+    private SavedProperty(User user, Property property) {
+        this.user = user;
+        this.property = property;
         this.createdAt = LocalDateTime.now();
     }
 
-    public static SavedProperty create(String userId, Long propertyId) {
-        return new SavedProperty(userId, propertyId);
+    public static SavedProperty create(User user, Property property) {
+        return new SavedProperty(user, property);
     }
 }
