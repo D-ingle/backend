@@ -31,4 +31,8 @@ public class PropertyDescription {
     public void updateConvenienceDescription(String description) {
         this.convenienceDescription = description;
     }
+
+    public void updateAccessibilityDescription(String description) {
+        this.accessibilityDescription = description;
+    }
 }

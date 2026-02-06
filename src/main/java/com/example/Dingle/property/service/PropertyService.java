@@ -48,6 +48,7 @@ public class PropertyService {
                         .district(district)
                         .apartmentName(request.getApartmentName())
                         .address(request.getAddress())
+                        .propertyType(request.getPropertyType())
                         .exclusiveArea(request.getExclusiveArea())
                         .supplyArea(request.getSupplyArea())
                         .latitude(request.getLatitude())
