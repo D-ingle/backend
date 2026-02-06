@@ -30,7 +30,7 @@ public class PropertyScore {
 
     public static PropertyScoreDTO fromEntity(PropertyScore entity) {
         return PropertyScoreDTO.builder()
-                .propertyId(entity.getPropertyId())
+                .propertyId(entity.getProperty().getId())
                 .noiseScore(entity.getNoiseScore())
                 .safetyScore(entity.getSafetyScore())
                 .convenienceScore(entity.getConvenienceScore())
