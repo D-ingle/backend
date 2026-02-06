@@ -3,6 +3,8 @@ package com.example.Dingle.property.controller.openAI;
 import com.example.Dingle.property.service.openAI.AccessibilityExplanationService;
 import com.example.Dingle.property.service.openAI.ConvenienceExplanationService;
 import com.example.Dingle.property.service.openAI.EnvironmentExplanationService;
+import com.example.Dingle.property.service.openAI.NoiseExplanationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ public class PropertyExplanationController {
     private final EnvironmentExplanationService environmentExplanationService;
     private final ConvenienceExplanationService convenienceExplanationService;
     private final AccessibilityExplanationService accessibilityExplanationService;
+    private final NoiseExplanationService noiseExplanationService;
 
     @PostMapping("/{propertyId}/environment")
     @Operation(summary = "환경 점수 측정 API", description = "환경 점수를 측정합니다.")
@@ -41,6 +44,13 @@ public class PropertyExplanationController {
             @PathVariable Long propertyId
     ) {
         accessibilityExplanationService.evaluateAndDescribe(propertyId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{propertyId}/noise")
+    @Operation(summary = "소음 점수 측정 API", description = "소음 점수를 측정합니다.")
+    public ResponseEntity<Void> evaluateNoise(@PathVariable Long propertyId) throws JsonProcessingException {
+        noiseExplanationService.evaluateAndDescribe(propertyId);
         return ResponseEntity.ok().build();
     }
 }
