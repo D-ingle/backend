@@ -77,8 +77,8 @@ public class ConvenienceStoreService {
 
         if(row.getX() != null && row.getY() != null ){
             double[] lonLat = CoordinateConverter.convert3857(row.getX(),row.getY());
-            longitude = lonLat[0];
-            latitude = lonLat[1];
+            longitude = lonLat[1];
+            latitude = lonLat[0];
         }
 
         return ConvenienceStoreLocationDTO.builder()
