@@ -3,6 +3,7 @@ package com.example.Dingle.property.controller.openAI;
 import com.example.Dingle.property.service.openAI.AccessibilityExplanationService;
 import com.example.Dingle.property.service.openAI.ConvenienceExplanationService;
 import com.example.Dingle.property.service.openAI.EnvironmentExplanationService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class PropertyExplanationController {
     private final AccessibilityExplanationService accessibilityExplanationService;
 
     @PostMapping("/{propertyId}/environment")
+    @Operation(summary = "환경 점수 측정 API", description = "환경 점수를 측정합니다.")
     public ResponseEntity<Void> evaluateEnvironment(
             @PathVariable Long propertyId
     ) {
@@ -25,6 +27,7 @@ public class PropertyExplanationController {
     }
 
     @PostMapping("/{propertyId}/convenience")
+    @Operation(summary = "편의 점수 측정 API", description = "편의 점수를 측정합니다.")
     public ResponseEntity<Void> evaluateConvenience(
             @PathVariable Long propertyId
     ) {
@@ -33,6 +36,7 @@ public class PropertyExplanationController {
     }
 
     @PostMapping("/{propertyId}/accessibility")
+    @Operation(summary = "접근성 점수 측정 API", description = "접근성 점수를 측정합니다.")
     public ResponseEntity<Void> evaluateAccessibility(
             @PathVariable Long propertyId
     ) {

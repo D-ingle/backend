@@ -23,6 +23,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register/user")
+    @Operation(summary = "회원가입 API", description = "회원을 등록합니다.")
     public ResponseEntity<ResponseDTO<Void>> register(@RequestBody UserDTO userDTO) {
         registerService.registerUser(userDTO);
 
