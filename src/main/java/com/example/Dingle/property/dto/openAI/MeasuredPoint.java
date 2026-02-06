@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MeasuredPoint {
-    double latitude;
-    double longitude;
-    double value;
+    private double latitude;
+    private double longitude;
+    private double value;
 }
