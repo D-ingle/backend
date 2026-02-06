@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.locationtech.jts.geom.Point;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -38,6 +40,9 @@ public class Infra {
     private String name;
     private String roadAddress;
     private String hospitalType;
+
+    @Column(columnDefinition = "geometry(Point,4326)")
+    private Point geom;
 
     public Infra(
             District district,

@@ -16,7 +16,7 @@ public class PoliceOfficeController {
     private final PoliceOfficeService policeOfficeService;
 
     @PostMapping("/police")
-    @Operation(summary = "파출소 데이터 저장 API", description = "파출소 데이터를 저장합니다.")
+//    @Operation(summary = "파출소 데이터 저장 API", description = "파출소 데이터를 저장합니다.")
     public ResponseEntity<Void> importGuroPoliceOffice() {
         policeOfficeService.savePoliceOffices();
         return ResponseEntity.ok().build();

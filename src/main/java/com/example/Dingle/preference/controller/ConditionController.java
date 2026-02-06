@@ -19,7 +19,7 @@ public class ConditionController {
     private final ConditionService conditionService;
 
     @PostMapping("/register")
-    @Operation(summary = "선호 조건 등록 API", description = "선호 조건을 추가합니다.")
+//    @Operation(summary = "선호 조건 등록 API", description = "선호 조건을 추가합니다.")
     public ResponseEntity<ResponseDTO<Void>> registerCondition(
             @RequestBody ConditionRegisterDTO request
     ) {

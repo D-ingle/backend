@@ -15,7 +15,7 @@ public class SafetyController {
     private final SafetyService safetyService;
 
     @PostMapping("/safety-light")
-    @Operation(summary = "보안등 데이터 저장 API", description = "보안등 데이터를 저장합니다.")
+//    @Operation(summary = "보안등 데이터 저장 API", description = "보안등 데이터를 저장합니다.")
     public void saveSafetyLightInfra() {
         safetyService.saveSafetyLightInfra();
     }

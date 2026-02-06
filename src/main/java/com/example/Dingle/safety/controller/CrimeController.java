@@ -15,7 +15,7 @@ public class CrimeController {
     private final CrimeService crimeService;
 
     @PostMapping("/crime")
-    @Operation(summary = "범의 구역 데이터 저장 API", description = "범죄 구역을 저장합니다.")
+//    @Operation(summary = "범의 구역 데이터 저장 API", description = "범죄 구역을 저장합니다.")
     public void saveCrimeProne() throws Exception {
         crimeService.saveCrimeProneArea();
     }
