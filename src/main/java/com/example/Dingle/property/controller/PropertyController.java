@@ -33,6 +33,7 @@ public class PropertyController {
     }
 
     @GetMapping("/recent")
+    @Operation(summary = "최근 본 매물 조회 API", description = "자주 방문하는 스팟을 저장합니다.")
     public ResponseEntity<ResponseDTO<List<PropertyListDTO>>> recentView(@RequestParam("propertyIds") List<Long> propertyIds) {
 
         List<PropertyListDTO> response = propertyListService.getPropertyList(propertyIds);
@@ -40,6 +41,7 @@ public class PropertyController {
     }
 
     @GetMapping("/zzim")
+    @Operation(summary = "찜한 매물 조회 API", description = "찜한 매물을 조회합니다.")
     public ResponseEntity<ResponseDTO<List<PropertyListDTO>>> likeList(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
         List<PropertyListDTO> response = propertyListService.getLikePropertyList(userDetails.getUsername());
@@ -47,6 +49,7 @@ public class PropertyController {
     }
 
     @GetMapping("/compare")
+    @Operation(summary = "찜한 매물 상세조회 API", description = "찜한 매물을 1개씩 상세조회합니다.")
     public ResponseEntity<ResponseDTO<List<PropertyCompareDTO>>> compareList(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam("propertyIds") List<Long> propertyIds) {
 
         List<PropertyCompareDTO> response = propertyListService.getPropertyCompare(userDetails.getUsername(), propertyIds);

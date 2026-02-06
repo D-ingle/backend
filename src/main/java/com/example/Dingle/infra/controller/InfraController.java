@@ -1,6 +1,7 @@
 package com.example.Dingle.infra.controller;
 
 import com.example.Dingle.infra.service.InfraService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,19 +16,23 @@ public class InfraController {
     private final InfraService infraService;
 
     @PostMapping("/cctv")
+    @Operation(summary = "CCTV 데이터 저장 API", description = "CCTV 데이터를 저장합니다.")
     public void saveCctvInfra(@RequestParam String district) {
         infraService.saveCctvInfra(district);
     }
 
     @PostMapping("/market")
+    @Operation(summary = "마트 데이터 저장 API", description = "마트 데이터를 저장합니다.")
     public void saveMarketInfra(@RequestParam String district) {
         infraService.saveMarketInfra(district);
     }
 
     @PostMapping("/hospital")
+    @Operation(summary = "병원 데이터 저장 API", description = "병원 데이터를 저장합니다.")
     public void saveHospitalInfra(@RequestParam String district) {infraService.saveHospitalInfra(district);}
 
     @PostMapping("/convenienceStore")
+    @Operation(summary = "편의점 데이터 저장 API", description = "편의점 데이터를 저장합니다.")
     public void saveConvenienceStoreInfra(@RequestParam String district) {
         infraService.saveConvenienceStoreInfra(district);
     }

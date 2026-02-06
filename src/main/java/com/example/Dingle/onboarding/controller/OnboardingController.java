@@ -4,6 +4,7 @@ import com.example.Dingle.global.dto.ResponseDTO;
 import com.example.Dingle.onboarding.dto.OnboardRequestDTO;
 import com.example.Dingle.onboarding.service.OnboardingService;
 import com.example.Dingle.user.dto.CustomUserDetails;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +21,7 @@ public class OnboardingController {
     }
 
     @PostMapping("/onboarding")
+    @Operation(summary = "온보딩 API", description = "온보딩을 진행합니다.")
     public ResponseEntity<ResponseDTO<Void>> onboard(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody OnboardRequestDTO onboardRequestDTO) {
