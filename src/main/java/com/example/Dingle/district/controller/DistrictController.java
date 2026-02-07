@@ -19,7 +19,6 @@ public class DistrictController {
     private final DistrictService districtService;
 
     @PostMapping("/register")
-    @Operation(summary = "지역구 등록 API", description = "지역구를 추가합니다.")
     public ResponseEntity<ResponseDTO<Void>> registerDistrict(
         @RequestBody DistrictRegisterDTO request
     ) {
