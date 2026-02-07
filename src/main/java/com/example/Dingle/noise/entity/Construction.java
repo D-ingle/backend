@@ -4,6 +4,7 @@ import com.example.Dingle.district.entity.District;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDate;
 
@@ -29,6 +30,9 @@ public class Construction {
     private Double latitude;
     @Column(nullable = false)
     private Double longitude;
+
+    @Column(columnDefinition = "geometry(Point,4326)")
+    private Point geom;
 
     public Construction(District district, String name, LocalDate startDate, LocalDate endDate, Double latitude, Double longitude) {
         this.district = district;

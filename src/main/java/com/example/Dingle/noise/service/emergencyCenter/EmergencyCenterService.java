@@ -13,7 +13,7 @@ import java.util.Set;
 @Service
 public class EmergencyCenterService {
 
-    private static final Set<String> TARGET_CENTER_CODES = Set.of( "지역응급의료센터", "권역응급의료센터");
+    private static final Set<String> TARGET_CENTER_CODES = Set.of( "지역응급의료센터", "권역응급의료센터", "지역응급의료기관");
 
     private static final int PAGE_SIZE = 1000;
 
