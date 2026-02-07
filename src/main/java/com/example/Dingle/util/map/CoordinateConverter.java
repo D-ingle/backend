@@ -8,6 +8,12 @@ public class CoordinateConverter {
 
     private static final CRSFactory CRS_FACTORY = new CRSFactory();
     private static final CoordinateTransformFactory COORDINATE_TRANSFORM_FACTORY = new CoordinateTransformFactory();
+
+    private static final CoordinateTransform COORDINATE_TRANSFORM5186 = COORDINATE_TRANSFORM_FACTORY.createTransform(
+            CRS_FACTORY.createFromName("EPSG:5186"),
+            CRS_FACTORY.createFromName("EPSG:4326")
+    );
+
     private static final CoordinateTransform COORDINATE_TRANSFORM5174 = COORDINATE_TRANSFORM_FACTORY.createTransform(
             CRS_FACTORY.createFromName("EPSG:5174"),
             CRS_FACTORY.createFromName("EPSG:4326")
@@ -18,6 +24,9 @@ public class CoordinateConverter {
             CRS_FACTORY.createFromName("EPSG:4326")
     );
 
+    public static double[] convert5186(double x, double y) {
+        return transform(COORDINATE_TRANSFORM5186, x, y);
+    }
 
     public static double[] convert5174(double x, double y) {
         return transform(COORDINATE_TRANSFORM5174, x, y);
