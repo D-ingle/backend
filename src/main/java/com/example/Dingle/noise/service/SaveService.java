@@ -5,12 +5,16 @@ import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.noise.dto.construction.ConstructionLocationDTO;
+import com.example.Dingle.noise.dto.emergencyCenter.EmergencyCenterLocationDTO;
 import com.example.Dingle.noise.dto.firestation.FireStationLocationDTO;
 import com.example.Dingle.noise.entity.Construction;
+import com.example.Dingle.noise.entity.EmergencyCenter;
 import com.example.Dingle.noise.entity.FireStation;
 import com.example.Dingle.noise.repository.ConstructionRepository;
+import com.example.Dingle.noise.repository.EmergencyCenterRepository;
 import com.example.Dingle.noise.repository.FireStationRepository;
 import com.example.Dingle.noise.service.construction.ConstructionService;
+import com.example.Dingle.noise.service.emergencyCenter.EmergencyCenterService;
 import com.example.Dingle.noise.service.firestation.FireStationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,8 @@ public class SaveService {
     private final DistrictRepository districtRepository;
     private final ConstructionService constructionService;
     private final ConstructionRepository constructionRepository;
+    private final EmergencyCenterService emergencyCenterService;
+    private final EmergencyCenterRepository emergencyCenterRepository;
 
     @Transactional
     public void saveFireStation() {
@@ -65,4 +71,20 @@ public class SaveService {
 
         constructionRepository.saveAll(construction);
     }
+
+    @Transactional
+    public void saveEmergencyCenter() {
+        List<EmergencyCenterLocationDTO> emergencyCenterLocations = emergencyCenterService.getEmergencyCenterLocation();
+
+        List<EmergencyCenter> emergencyCenters = emergencyCenterLocations.stream()
+                .map(dto -> new EmergencyCenter(
+                        dto.getName(),
+                        dto.getLatitude(),
+                        dto.getLongitude()
+                ))
+                .toList();
+
+        emergencyCenterRepository.saveAll(emergencyCenters);
+    }
+
 }
