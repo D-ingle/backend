@@ -46,4 +46,7 @@ public class NoiseController {
     public void saveConstructionInfra(@RequestParam String district) {
         saveService.saveConstruction(district);
     }
+
+    @PostMapping("/emergency")
+    public void saveEmergencyCenterInfra() { saveService.saveEmergencyCenter(); }
 }
