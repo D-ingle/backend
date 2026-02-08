@@ -1,11 +1,7 @@
 package com.example.Dingle.property.controller.openAI;
 
-import com.example.Dingle.property.service.openAI.AccessibilityExplanationService;
-import com.example.Dingle.property.service.openAI.ConvenienceExplanationService;
-import com.example.Dingle.property.service.openAI.EnvironmentExplanationService;
-import com.example.Dingle.property.service.openAI.NoiseExplanationService;
+import com.example.Dingle.property.service.openAI.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +15,7 @@ public class PropertyExplanationController {
     private final ConvenienceExplanationService convenienceExplanationService;
     private final AccessibilityExplanationService accessibilityExplanationService;
     private final NoiseExplanationService noiseExplanationService;
+    private final SafetyExplanationService safetyExplanationService;
 
     @PostMapping("/{propertyId}/environment")
     public ResponseEntity<Void> evaluateEnvironment(
@@ -47,6 +44,12 @@ public class PropertyExplanationController {
     @PostMapping("/{propertyId}/noise")
     public ResponseEntity<Void> evaluateNoise(@PathVariable Long propertyId) throws JsonProcessingException {
         noiseExplanationService.evaluateAndDescribe(propertyId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{propertyId}/safety")
+    public ResponseEntity<Void> evaluateSafety(@PathVariable Long propertyId) {
+        safetyExplanationService.evaluateAndDescribe(propertyId);
         return ResponseEntity.ok().build();
     }
 }
