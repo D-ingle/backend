@@ -46,6 +46,7 @@ public class PropertyScore {
     public void updateNoiseScore(int score) {
         this.noiseScore = score;
     }
+    public void updateSafetyScore(int score) { this.safetyScore = score; }
 
 
 }

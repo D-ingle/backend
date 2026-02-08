@@ -39,4 +39,8 @@ public class PropertyDescription {
     public void updateNoiseDescription(String description) {
         this.noiseDescription = description;
     }
+
+    public void updateSafetyDescription(String description) {
+        this.safetyDescription = description;
+    }
 }
