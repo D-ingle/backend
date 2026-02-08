@@ -2,16 +2,22 @@ package com.example.Dingle.property.service.openAI;
 
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
+import com.example.Dingle.property.dto.openAI.SafetyEvaluationResult;
+import com.example.Dingle.property.dto.openAI.SafetyExplanationPrompt;
 import com.example.Dingle.property.entity.Property;
+import com.example.Dingle.property.entity.PropertyDescription;
 import com.example.Dingle.property.entity.PropertyScore;
+import com.example.Dingle.property.repository.PropertyDescriptionRepository;
 import com.example.Dingle.property.repository.PropertyRepository;
 import com.example.Dingle.property.repository.PropertyScoreRepository;
 import com.example.Dingle.property.service.PathRouteService;
+import com.example.Dingle.property.util.OpenAiClient;
 import com.example.Dingle.property.util.SafetyScoreCalculator;
 import com.example.Dingle.safety.entity.PropertyPathSafetyItem;
 import com.example.Dingle.safety.repository.HomeSafetyRepository;
 import com.example.Dingle.safety.repository.PathSafetyRepository;
 import com.example.Dingle.safety.repository.PropertyPathSafetyItemRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +30,16 @@ public class SafetyExplanationService {
     private final PropertyRepository propertyRepository;
     private final PropertyScoreRepository propertyScoreRepository;
     private final PropertyPathSafetyItemRepository pathItemRepository;
+    private final PropertyDescriptionRepository propertyDescriptionRepository;
 
     private final HomeSafetyRepository homeSafetyRepository;
     private final PathSafetyRepository pathSafetyRepository;
     private final SafetyScoreCalculator calculator;
     private final PathRouteService pathRouteService;
+
+    private final OpenAiClient openAiClient;
+    private final ObjectMapper objectMapper;
+    private final SafetyExplanationPrompt prompt;
 
     public void evaluateAndDescribe(Long propertyId) {
 
@@ -84,5 +95,38 @@ public class SafetyExplanationService {
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_SCORE_NOT_FOUND));
 
         score.updateSafetyScore(finalSafetyScore);
+
+        // AI 요약
+        SafetyEvaluationResult result = SafetyEvaluationResult.builder()
+                        .safetyScore(finalSafetyScore)
+                        .home(SafetyEvaluationResult.Home.builder()
+                                .crimeScore(crimeScoreHome)
+                                .policeScore(policeScore)
+                                .infraScore(infraScoreHome)
+                                .score(homeSafetyScore)
+                                .build())
+                        .path(SafetyEvaluationResult.Path.builder()
+                                .crimeCount(crimeCount)
+                                .cctvCount(cctvCount)
+                                .safetyLightCount(lightCount)
+                                .score(pathSafetyScore)
+                                .build())
+                        .build();
+
+        String json;
+        try {
+            json = objectMapper.writeValueAsString(result);
+        } catch (Exception e) {
+            throw new RuntimeException("SafetyEvaluationResult serialization failed", e);
+        }
+
+        String explanation = openAiClient.generate(
+                prompt.build(result, json)
+        );
+
+        PropertyDescription description = propertyDescriptionRepository.findByPropertyId(propertyId)
+                        .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_EXPLANATION_NOT_EXISTS));
+
+        description.updateSafetyDescription(explanation);
     }
 }
