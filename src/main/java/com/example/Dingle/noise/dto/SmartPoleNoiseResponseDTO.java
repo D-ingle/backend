@@ -14,7 +14,9 @@ import java.util.List;
 public class SmartPoleNoiseResponseDTO {
 
     private Double avgNoise;
+    private Double districtAvgNoise;
     private Integer count;
+    private Long overCount;
     private List<Item> items;
 
     @Getter

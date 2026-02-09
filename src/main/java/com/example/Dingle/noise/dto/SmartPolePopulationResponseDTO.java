@@ -14,7 +14,9 @@ import java.util.List;
 public class SmartPolePopulationResponseDTO {
 
     private Double avgPopulation;
+    private Double districtAvgPopulation;
     private Integer count;
+    private Long overCount;
     private List<Item> items;
 
     @Getter

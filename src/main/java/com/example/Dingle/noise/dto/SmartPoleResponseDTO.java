@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class SmartPoleResponseDTO {
 
     private Long propertyId;
+    private Long districtId;
     private int radiusMeters;
     private int time;
     private Boolean weekend;
