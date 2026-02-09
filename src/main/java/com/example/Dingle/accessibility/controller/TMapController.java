@@ -3,7 +3,9 @@ package com.example.Dingle.accessibility.controller;
 import com.example.Dingle.accessibility.dto.TMapArriveDTO;
 import com.example.Dingle.accessibility.service.TMapPredictionClientService;
 import com.example.Dingle.global.dto.ResponseDTO;
+import com.example.Dingle.user.dto.CustomUserDetails;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,16 +23,14 @@ public class TMapController {
 
     @GetMapping("")
     public ResponseEntity<ResponseDTO<TMapArriveDTO>> getTMapPrediction(
-            @RequestParam double startLon,
-            @RequestParam double startLat,
-            @RequestParam double endLon,
-            @RequestParam double endLat,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam Long propertyId,
             @RequestParam String predictionTime
     ) {
 
         String fixedPredictionTime = predictionTime.replace(" ", "+");
 
-        TMapArriveDTO response = tMapPredictionClient.getPrediction(startLon, startLat, endLon, endLat, fixedPredictionTime);
+        TMapArriveDTO response = tMapPredictionClient.getPrediction(customUserDetails.getUsername(), propertyId, fixedPredictionTime);
 
         return ResponseEntity.ok(ResponseDTO.success(response));
     }

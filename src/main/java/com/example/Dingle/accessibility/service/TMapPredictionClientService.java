@@ -3,9 +3,18 @@ package com.example.Dingle.accessibility.service;
 import com.example.Dingle.accessibility.dto.TMapArriveDTO;
 import com.example.Dingle.accessibility.dto.TMapArriveRequestDTO;
 import com.example.Dingle.accessibility.dto.TMapArriveResponseDTO;
+import com.example.Dingle.global.exception.AuthException;
+import com.example.Dingle.global.exception.BusinessException;
+import com.example.Dingle.global.message.AuthErrorMessage;
+import com.example.Dingle.global.message.BusinessErrorMessage;
+import com.example.Dingle.property.entity.Property;
+import com.example.Dingle.property.repository.PropertyRepository;
+import com.example.Dingle.user.entity.User;
+import com.example.Dingle.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -15,8 +24,22 @@ public class TMapPredictionClientService {
 
     @Qualifier("tMapWebClient")
     private final WebClient tMapWebClient;
+    private final UserRepository userRepository;
+    private final PropertyRepository propertyRepository;
 
-    public TMapArriveDTO getPrediction (double startLon, double startLat, double endLon, double endLat, String predictionTime) {
+    public TMapArriveDTO getPrediction (String userId, Long propertyId, String predictionTime) {
+
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
+
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
+
+        double endLon = user.getDestLongitude();
+        double endLat = user.getDestLatitude();
+
+        double startLon = property.getLongitude();
+        double startLat = property.getLatitude();
 
         TMapArriveRequestDTO request = TMapArriveRequestDTO.builder()
                 .routesInfo(TMapArriveRequestDTO.RoutesInfo.builder()
@@ -46,6 +69,8 @@ public class TMapPredictionClientService {
                         .queryParam("sort", "index")
                         .queryParam("totalValue", 2)
                         .build())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(request)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, resp -> resp.bodyToMono(String.class)

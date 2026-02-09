@@ -15,13 +15,6 @@ public class TMapWebClientConfig {
                 .defaultHeader("Accept", "application/json")
                 .defaultHeader("Content-Type", "application/json")
                 .defaultHeader("appKey", appKey)
-                .filter((request, next) -> {
-                    System.out.println("=== TMAP REQUEST ===");
-                    System.out.println(request.method() + " " + request.url()); // ✅ 쿼리 포함 URL 확인
-                    request.headers().forEach((k, v) -> System.out.println(k + ": " + v)); // ✅ appKey 존재 확인
-                    System.out.println("====================");
-                    return next.exchange(request);
-                })
                 .build();
     }
 }
