@@ -1,7 +1,6 @@
 package com.example.Dingle.global.client;
 
 import com.example.Dingle.safety.dto.KakaoPlaceResponse;
-import com.example.Dingle.safety.dto.KakaoRouteResponse;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,33 +52,5 @@ public class KakaoMapClient {
                 Double.parseDouble(doc.getX()),
                 Double.parseDouble(doc.getY())
         );
-    }
-
-    // 도보 경로
-    public KakaoRouteResponse getWalkingRoute(
-            double startLon, double startLat,
-            double endLon, double endLat
-    ) {
-
-        String url = "https://apis-navi.kakaomobility.com/v1/directions";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "KakaoAK " + apiKey);
-
-        UriComponentsBuilder uri = UriComponentsBuilder
-                .fromHttpUrl(url)
-                .queryParam("origin", startLon + "," + startLat)
-                .queryParam("destination", endLon + "," + endLat)
-                .queryParam("priority", "RECOMMEND");
-
-        ResponseEntity<KakaoRouteResponse> response =
-                restTemplate.exchange(
-                        uri.toUriString(),
-                        HttpMethod.GET,
-                        new HttpEntity<>(headers),
-                        KakaoRouteResponse.class
-                );
-
-        return response.getBody();
     }
 }
