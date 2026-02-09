@@ -102,8 +102,8 @@ public class EnvironmentService {
         EnvironmentTotalDTO.ParticulateMatter pm = (particulateMatter == null)
                 ? null
                 : EnvironmentTotalDTO.ParticulateMatter.builder()
-                .pm10(particulateMatter.getPm10())
-                .pm25(particulateMatter.getPm25())
+                .pm10(particulateMatter.getPm10() != null ? particulateMatter.getPm10() : 0)
+                .pm25(particulateMatter.getPm25() != null ? particulateMatter.getPm25() : 0)
                 .build();
 
 
