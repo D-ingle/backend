@@ -25,7 +25,7 @@ public class SafetyController {
     }
 
     @GetMapping("/{propertyId}/modal")
-    @Operation(summary = "지도 안전 모달 조회 API", description = "안전 모달을 조회합니다.")
+    @Operation(summary = "지도 안전 모달 조회 API (이거 아직 완성 아님)", description = "안전 모달을 조회합니다.")
     public ResponseEntity<ResponseDTO<SafetyModalResponse>> getSafetyModal(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable("propertyId") Long propertyId
