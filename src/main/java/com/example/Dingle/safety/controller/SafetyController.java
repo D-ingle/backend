@@ -3,6 +3,7 @@ package com.example.Dingle.safety.controller;
 import com.example.Dingle.global.dto.ResponseDTO;
 import com.example.Dingle.property.dto.DetailPropertyDTO;
 import com.example.Dingle.safety.dto.SafetyModalResponse;
+import com.example.Dingle.safety.dto.SafetyRouteResponse;
 import com.example.Dingle.safety.service.SafetyService;
 import com.example.Dingle.user.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +32,17 @@ public class SafetyController {
             @PathVariable("propertyId") Long propertyId
     ) {
         SafetyModalResponse response = safetyService.getSafetyModal(userDetails.getUsername(), propertyId);
+
+        return ResponseEntity.ok(ResponseDTO.success(response));
+    }
+
+    @GetMapping("/{propertyId}/route")
+    @Operation(summary = "지하철역 경로 및 Safety 요소 조회 API", description = "도보 경로, 경로 내 CCTV, 보안등 위치, 범죄주의구간")
+    public ResponseEntity<ResponseDTO<SafetyRouteResponse>> getSafetyRoute(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable("propertyId") Long propertyId
+    ) {
+        SafetyRouteResponse response = safetyService.getSafetyRoute(userDetails.getUsername(), propertyId);
 
         return ResponseEntity.ok(ResponseDTO.success(response));
     }
