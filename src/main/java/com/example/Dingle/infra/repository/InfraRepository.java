@@ -18,6 +18,7 @@ public interface InfraRepository extends JpaRepository<Infra, Long> {
         SELECT
             i.id AS id,
                       i.name AS name,
+                      i.road_address AS roadAddress,  
                       i.latitude AS latitude,
                       i.longitude AS longitude,
                       i.infra_type AS infraType,
