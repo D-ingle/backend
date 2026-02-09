@@ -168,4 +168,28 @@ public class PathSafetyRepository {
                 .setParameter("pathWkt", pathWkt)
                 .getSingleResult()).longValue();
     }
+
+    @SuppressWarnings("unchecked")
+    public List<Object[]> findCrimeAreasWithinRadiusGeoJson(double lat, double lng) {
+
+        String sql = """
+            SELECT 1
+               FROM crime_prone_area c
+               WHERE ST_Intersects(
+                 c.geometry,
+                 ST_Buffer(
+                   ST_Transform(
+                     ST_SetSRID(ST_MakePoint(?2, ?1), 4326),
+                     5179
+                   ),
+                   200000
+                 )
+               )
+        """;
+
+        return em.createNativeQuery(sql)
+                .setParameter(1, lat)
+                .setParameter(2, lng)
+                .getResultList();
+    }
 }

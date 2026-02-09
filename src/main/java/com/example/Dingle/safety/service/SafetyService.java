@@ -7,11 +7,13 @@ import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.infra.type.InfraType;
 import com.example.Dingle.property.entity.Property;
 import com.example.Dingle.property.repository.PropertyRepository;
+import com.example.Dingle.safety.dto.CrimeAreaModalResponse;
 import com.example.Dingle.safety.dto.PoliceModalResponse;
 import com.example.Dingle.safety.dto.SafetyLightLocationDTO;
 import com.example.Dingle.safety.dto.SafetyModalResponse;
 import com.example.Dingle.safety.entity.PropertyPathSafetyItem;
 import com.example.Dingle.safety.entity.Safety;
+import com.example.Dingle.safety.repository.PathSafetyRepository;
 import com.example.Dingle.safety.repository.PoliceOfficeRepository;
 import com.example.Dingle.safety.repository.PropertyPathSafetyItemRepository;
 import com.example.Dingle.safety.repository.SafetyRepository;
@@ -34,6 +36,7 @@ public class SafetyService {
     private final PropertyRepository propertyRepository;
     private final PropertyPathSafetyItemRepository propertyPathSafetyItemRepository;
     private final PoliceOfficeRepository policeOfficeRepository;
+    private final PathSafetyRepository pathSafetyRepository;
 
     @Transactional
     public void saveSafetyLightInfra() {
@@ -69,10 +72,30 @@ public class SafetyService {
 
         List<PoliceModalResponse> polices = policeOfficeRepository.findNearbyPolices(property.getLatitude(), property.getLongitude());
 
+        List<Object[]> rows = pathSafetyRepository.findCrimeAreasWithinRadiusGeoJson(
+                        property.getLatitude(),
+                        property.getLongitude()
+                );
+
+        List<CrimeAreaModalResponse> nearbyCrimeZones =
+                rows.stream()
+                        .map(r -> new CrimeAreaModalResponse(
+                                ((Number) r[0]).longValue(),
+                                (String) r[1],
+                                ((Number) r[2]).intValue(),
+                                (String) r[3]
+                        ))
+                        .toList();
+
+        boolean hasNearbyCrimeZone = !nearbyCrimeZones.isEmpty();
+
         return new SafetyModalResponse(
                 isPassedCrimeZone,
                 propertyPathSafetyItem.getCctv(),
                 propertyPathSafetyItem.getSafetyLight(),
-                polices);
+                polices,
+                hasNearbyCrimeZone,
+                nearbyCrimeZones
+        );
     }
 }
