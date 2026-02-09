@@ -35,6 +35,7 @@ public enum BusinessErrorMessage implements DefaultErrorMessage {
     PROPERTY_SCORE_NOT_FOUND(HttpStatus.NOT_FOUND, "매물 점수를 찾을 수 없습니다."),
     PROPERTY_EXPLANATION_NOT_EXISTS(HttpStatus.NOT_FOUND, "매물 설명을 찾을 수 없습니다."),
     SAFETY_ITEM_NOT_EXISTS(HttpStatus.NOT_FOUND, "안전 아이템을 찾을 수 없습니다."),
+    PATH_NOT_EXISTS(HttpStatus.NOT_FOUND, "경로를 찾을 수 없습니다."),
 
     // 공공데이터
     CCTV_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CCTV 데이터 저장에 실패했습니다."),
