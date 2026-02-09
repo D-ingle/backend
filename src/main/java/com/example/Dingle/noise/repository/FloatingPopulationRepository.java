@@ -48,4 +48,17 @@ public interface FloatingPopulationRepository extends JpaRepository<FloatingPopu
             @Param("time") int time,
             @Param("isWeekend") boolean isWeekend
     );
+
+    @Query(value = """
+        SELECT COALESCE(AVG(population), 0)
+        FROM floating_population
+        WHERE is_weekend = :isWeekend
+          AND time = :time
+          AND district_id = :districtId
+    """, nativeQuery = true)
+    Double findDistrictAveragePopulation(
+            @Param("time") int time,
+            @Param("isWeekend") boolean isWeekend,
+            @Param("districtId") Long districtId
+    );
 }

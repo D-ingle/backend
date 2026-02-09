@@ -97,11 +97,16 @@ public class NoiseScoreService {
     }
 
     public SmartPoleResponseDTO getSmartPole(Long propertyId, int distance, int time, boolean weekend) {
+
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
+
         SmartPoleNoiseResponseDTO noise = getSmartPoleNoise(propertyId, distance, time, weekend);
         SmartPolePopulationResponseDTO population = getSmartPolePopulation(propertyId, distance, time, weekend);
 
         return SmartPoleResponseDTO.builder()
                 .propertyId(propertyId)
+                .districtId(property.getDistrict().getId())
                 .radiusMeters(distance)
                 .time(time)
                 .weekend(weekend)
@@ -115,6 +120,10 @@ public class NoiseScoreService {
         Property property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
 
+        Long districtId = property.getDistrict().getId();
+
+        Double districtAvgNoise = noiseRepository.findDistrictAverageNoise(time, weekend, districtId);
+
         double latitude = property.getLatitude();
         double longitude = property.getLongitude();
 
@@ -126,6 +135,10 @@ public class NoiseScoreService {
                 .orElse(Double.NaN);
 
         Double avgNoiseValue = Double.isNaN(avgNoise) ? null : avgNoise;
+
+        long overCount = rows.stream()
+                .filter(row -> row.getNoise() > districtAvgNoise)
+                .count();
 
         List<SmartPoleNoiseResponseDTO.Item> items = rows.stream()
                 .map(row -> SmartPoleNoiseResponseDTO.Item.builder()
@@ -140,7 +153,9 @@ public class NoiseScoreService {
 
         return SmartPoleNoiseResponseDTO.builder()
                 .avgNoise(avgNoiseValue)
+                .districtAvgNoise(districtAvgNoise)
                 .count(items.size())
+                .overCount(overCount)
                 .items(items)
                 .build();
     }
@@ -149,6 +164,10 @@ public class NoiseScoreService {
 
         Property property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
+
+        Long districtId = property.getDistrict().getId();
+
+        Double districtAvgPopulation = floatingPopulationRepository.findDistrictAveragePopulation(time, weekend, districtId);
 
         double latitude = property.getLatitude();
         double longitude = property.getLongitude();
@@ -161,6 +180,10 @@ public class NoiseScoreService {
                 .orElse(Double.NaN);
 
         Double avgPopulationValue = Double.isNaN(avgPopulation) ? null : avgPopulation;
+
+        long overCount = rows.stream()
+                .filter(row -> row.getPopulation() > districtAvgPopulation)
+                .count();
 
         List<SmartPolePopulationResponseDTO.Item> items = rows.stream()
                 .map(row -> SmartPolePopulationResponseDTO.Item.builder()
@@ -175,7 +198,9 @@ public class NoiseScoreService {
 
         return SmartPolePopulationResponseDTO.builder()
                 .avgPopulation(avgPopulationValue)
+                .districtAvgPopulation(districtAvgPopulation)
                 .count(items.size())
+                .overCount(overCount)
                 .items(items)
                 .build();
     }
