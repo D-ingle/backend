@@ -30,6 +30,7 @@ public class NearbyInfraDTO {
         private InfraType infraType;
         private Long id;
         private String name;
+        private String roadAddress;
         private Double latitude;
         private Double longitude;
         private Double distanceMeters;

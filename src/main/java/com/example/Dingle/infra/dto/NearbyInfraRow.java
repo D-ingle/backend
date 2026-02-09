@@ -5,6 +5,7 @@ import com.example.Dingle.infra.type.InfraType;
 public interface NearbyInfraRow {
     Long getId();
     String getName();
+    String getRoadAddress();
     InfraType getInfraType();
     Double getLatitude();
     Double getLongitude();

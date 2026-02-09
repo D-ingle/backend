@@ -161,6 +161,7 @@ public class InfraService {
                         .hospitalType(row.getHospitalType())
                         .id(row.getId())
                         .name(row.getName())
+                        .roadAddress(row.getRoadAddress())
                         .latitude(row.getLatitude())
                         .longitude(row.getLongitude())
                         .distanceMeters(row.getDistanceMeters())
