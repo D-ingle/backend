@@ -18,6 +18,7 @@ public class EnvironmentTotalDTO {
     private Integer environmentScore;
     private int radiusMeters;
     private List<Item> items;
+    private ParticulateMatter particulateMatter;
 
     @Getter
     @Builder
@@ -30,5 +31,14 @@ public class EnvironmentTotalDTO {
         private double latitude;
         private double longitude;
         private double distanceMeters;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ParticulateMatter{
+        private int pm10;
+        private int pm25;
     }
 }
