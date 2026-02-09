@@ -6,8 +6,10 @@ import com.example.Dingle.environment.dto.EnvironmentTotalDTO;
 import com.example.Dingle.environment.dto.EnvironmentTotalRow;
 import com.example.Dingle.environment.dto.WasteFacilityLocationDTO;
 import com.example.Dingle.environment.entity.Environment;
+import com.example.Dingle.environment.entity.ParticulateMatter;
 import com.example.Dingle.environment.repository.EnvironmentRepository;
 import com.example.Dingle.environment.repository.NatureRepository;
+import com.example.Dingle.environment.repository.ParticulateMatterRepository;
 import com.example.Dingle.environment.type.EnvironmentType;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
@@ -30,15 +32,17 @@ public class EnvironmentService {
     private final PropertyRepository propertyRepository;
     private final PropertyScoreRepository propertyScoreRepository;
     private final NatureRepository natureRepository;
+    private final ParticulateMatterRepository particulateMatterRepository;
 
 
-    public EnvironmentService(DistrictRepository districtRepository, EnvironmentRepository environmentRepository, WasteService wasteService, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, NatureRepository natureRepository) {
+    public EnvironmentService(DistrictRepository districtRepository, EnvironmentRepository environmentRepository, WasteService wasteService, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, NatureRepository natureRepository, ParticulateMatterRepository particulateMatterRepository) {
         this.districtRepository = districtRepository;
         this.environmentRepository = environmentRepository;
         this.wasteService = wasteService;
         this.propertyRepository = propertyRepository;
         this.propertyScoreRepository = propertyScoreRepository;
         this.natureRepository = natureRepository;
+        this.particulateMatterRepository = particulateMatterRepository;
     }
 
     @Transactional
@@ -78,6 +82,7 @@ public class EnvironmentService {
         double latitude = property.getLatitude();
         double longitude = property.getLongitude();
 
+        ParticulateMatter particulateMatter = particulateMatterRepository.findByDistrict_Id(property.getDistrict().getId());
 
         List<EnvironmentTotalRow> nature = natureRepository.findByNature(latitude, longitude, distance);
 
@@ -94,11 +99,20 @@ public class EnvironmentService {
                     .build());
         }
 
+        EnvironmentTotalDTO.ParticulateMatter pm = (particulateMatter == null)
+                ? null
+                : EnvironmentTotalDTO.ParticulateMatter.builder()
+                .pm10(particulateMatter.getPm10() != null ? particulateMatter.getPm10() : 0)
+                .pm25(particulateMatter.getPm25() != null ? particulateMatter.getPm25() : 0)
+                .build();
+
+
         return EnvironmentTotalDTO.builder()
                 .enabled(true)
                 .environmentScore(score)
                 .radiusMeters(distance)
                 .items(items)
+                .particulateMatter(pm)
                 .build();
     }
 }
