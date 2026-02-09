@@ -41,12 +41,17 @@ public class User {
     @Column(name = "destination_updated_at")
     private LocalDateTime destinationUpdatedAt;
 
+    private Double destLatitude;
+    private Double destLongitude;
+
     private LocalDateTime createdAt;
     private LocalDateTime onboardedAt;
 
-    public void upsertDestination(String destinationName, String destinationAddress) {
+    public void upsertDestination(String destinationName, String destinationAddress, Double destLatitude, Double destLongitude) {
         this.destinationName = destinationName;
         this.destinationAddress = destinationAddress;
+        this.destLatitude = destLatitude;
+        this.destLongitude = destLongitude;
         this.destinationUpdatedAt = LocalDateTime.now();
     }
 }

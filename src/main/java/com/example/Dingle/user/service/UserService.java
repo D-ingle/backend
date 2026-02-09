@@ -7,6 +7,7 @@ import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.user.dto.DestinationDTO;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.repository.UserRepository;
+import com.example.Dingle.util.dto.GeoPointDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final KaKaoGeocodingService kaKaoGeocodingService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, KaKaoGeocodingService kaKaoGeocodingService) {
         this.userRepository = userRepository;
+        this.kaKaoGeocodingService = kaKaoGeocodingService;
     }
 
 
@@ -29,9 +32,16 @@ public class UserService {
             throw new BusinessException(BusinessErrorMessage.INVALID_DESTINATION);
         }
 
+        GeoPointDTO geoPointDTO = kaKaoGeocodingService.getGeoPoint(destinationDTO.getDestinationAddress());
+
+        double latitude = geoPointDTO.getLatitude();
+        double longitude = geoPointDTO.getLongitude();
+
         user.upsertDestination(
                 destinationDTO.getDestinationName(),
-                destinationDTO.getDestinationAddress()
+                destinationDTO.getDestinationAddress(),
+                latitude,
+                longitude
         );
     }
 
@@ -43,6 +53,8 @@ public class UserService {
         return DestinationDTO.builder()
                 .destinationName(user.getDestinationName())
                 .destinationAddress(user.getDestinationAddress())
+                .destLatitude(user.getDestLatitude())
+                .destLongitude(user.getDestLongitude())
                 .build();
     }
 }
