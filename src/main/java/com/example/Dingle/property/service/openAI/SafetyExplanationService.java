@@ -14,13 +14,13 @@ import com.example.Dingle.property.service.PathRouteService;
 import com.example.Dingle.property.util.OpenAiClient;
 import com.example.Dingle.property.util.SafetyScoreCalculator;
 import com.example.Dingle.safety.entity.PropertyPathSafetyItem;
-import com.example.Dingle.safety.repository.HomeSafetyRepository;
-import com.example.Dingle.safety.repository.PathSafetyRepository;
-import com.example.Dingle.safety.repository.PropertyPathSafetyItemRepository;
+import com.example.Dingle.safety.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +44,7 @@ public class SafetyExplanationService {
     public void evaluateAndDescribe(Long propertyId) {
 
         Property property = propertyRepository.findById(propertyId)
-                .orElseThrow(() -> new BusinessException(
-                        BusinessErrorMessage.PROPERTY_NOT_EXISTS));
+                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_NOT_EXISTS));
 
         double lat = property.getLatitude();
         double lon = property.getLongitude();
@@ -65,27 +64,35 @@ public class SafetyExplanationService {
 
         int homeSafetyScore = calculator.safetyScore(crimeScoreHome, policeScore, infraScoreHome);
 
-        // 경로 안전 점수
+        // 도보 안전 점수
         String pathWkt = pathRouteService.getPathWkt(property);
+        Long pathId = pathSafetyRepository.insertPropertyPath(property.getId(), pathWkt);
 
-        int crimeCount = pathSafetyRepository.countCrimeIntersectPath(pathWkt);
-        int cctvCount = pathSafetyRepository.countCctvNearPath(pathWkt);
-        int lightCount = pathSafetyRepository.countSafetyLightNearPath(pathWkt);
+        List<Long> cctvIds = pathSafetyRepository.findCctvIdsNearPath(pathWkt);
+        List<Long> crimeIds = pathSafetyRepository.findCrimeIdsIntersectPath(pathWkt);
+        List<Long> lightIds = pathSafetyRepository.findSafetyLightIdsNearPath(pathWkt);
+
+        int crimeCount = crimeIds.size();
+        int cctvCount = cctvIds.size();
+        int lightCount = lightIds.size();
 
         int pathCrimeScore = calculator.pathCrimeScore(crimeCount);
         int pathInfraScore = calculator.pathInfraScore(cctvCount, lightCount);
         int pathSafetyScore = calculator.pathSafetyScore(pathCrimeScore, pathInfraScore);
 
-        // 경로 결과 저장
-        pathItemRepository.deleteByPropertyId(propertyId);
-        pathItemRepository.save(
+        PropertyPathSafetyItem summary =
                 new PropertyPathSafetyItem(
                         property,
                         crimeCount,
                         cctvCount,
                         lightCount
-                )
-        );
+                );
+
+        pathItemRepository.save(summary);
+
+        pathSafetyRepository.insertCctvMapping(pathId, cctvIds);
+        pathSafetyRepository.insertCrimeMapping(pathId, crimeIds);
+        pathSafetyRepository.insertSafetyLightMapping(pathId, lightIds);
 
         // 최종 SAFETY_SCORE
         int finalSafetyScore = (int) Math.round(homeSafetyScore * 0.5 + pathSafetyScore * 0.5);
