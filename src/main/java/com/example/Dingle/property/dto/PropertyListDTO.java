@@ -15,6 +15,7 @@ public class PropertyListDTO {
 
     private Long propertyId;
     private PropertyType propertyType;
+    private String imageUrl;
     private String apartmentName;
     private Double exclusiveArea;
     private Double supplyArea;
