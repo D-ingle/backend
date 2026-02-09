@@ -45,6 +45,7 @@ public class UserInfoService {
 
         return UserInfoDTO.builder()
                 .userName(user.getUsername())
+                .onboardingStatus(!isOnboard)
                 .propertyType(propertyType)
                 .preferredConditions(conditionIds)
                 .build();
