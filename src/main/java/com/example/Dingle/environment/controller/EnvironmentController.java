@@ -1,12 +1,12 @@
 package com.example.Dingle.environment.controller;
 
+import com.example.Dingle.environment.dto.EnvironmentTotalDTO;
 import com.example.Dingle.environment.service.EnvironmentService;
+import com.example.Dingle.global.dto.ResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,5 +19,11 @@ public class EnvironmentController {
 //    @Operation(summary = "하수처리장 데이터 저장 API", description = "하수처리장 데이터를 저장합니다.")
     public void saveWasteFacility(@RequestParam String district) {
         environmentService.saveWasteFacility(district);
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<ResponseDTO<EnvironmentTotalDTO>> getEnvironmentTotal(@RequestParam("propertyId") Long propertyId, @RequestParam("distance") int distance) {
+        EnvironmentTotalDTO response = environmentService.getEnvironmentTotal(propertyId, distance);
+        return ResponseEntity.ok(ResponseDTO.success(response));
     }
 }
