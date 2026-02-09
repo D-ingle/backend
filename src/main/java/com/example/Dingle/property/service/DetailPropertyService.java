@@ -94,9 +94,18 @@ public class DetailPropertyService {
                 .licenseNumber(realtor.getLicenseNumber())
                 .build();
 
+        DetailPropertyDTO.PropertyScore propertyScoreInfo = DetailPropertyDTO.PropertyScore.builder()
+                .noiseScore(propertyScores.getNoiseScore())
+                .environmentScore(propertyScores.getEnvironmentScore())
+                .safetyScore(propertyScores.getSafetyScore())
+                .accessibilityScore(propertyScores.getAccessibilityScore())
+                .convenienceScore(propertyScores.getConvenienceScore())
+                .build();
+
         return DetailPropertyDTO.builder()
                 .deal(buildDealInfo(property))
                 .conditions(conditionIds)
+                .propertyScore(propertyScoreInfo)
                 .propertyInfo(DetailPropertyDTO.PropertyInfo.builder()
                         .propertyType(property.getPropertyType())
                         .apartmentName(property.getApartmentName())

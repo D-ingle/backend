@@ -19,6 +19,7 @@ public class DetailPropertyDTO {
 
     private DealInfo deal;
     private List<Integer> conditions;
+    private PropertyScore propertyScore;
     private PropertyInfo propertyInfo;
     private PropertyImages images;
     private Option option;
@@ -53,6 +54,17 @@ public class DetailPropertyDTO {
     public static class PropertyImages {
         private String floorImageUrl;
         private List<String> propertyImageUrls;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class PropertyScore {
+        private int noiseScore;
+        private int safetyScore;
+        private int convenienceScore;
+        private int accessibilityScore;
+        private int environmentScore;
     }
 
     @Getter
