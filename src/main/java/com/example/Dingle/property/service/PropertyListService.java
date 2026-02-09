@@ -7,17 +7,17 @@ import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.property.dto.PropertyCompareDTO;
 import com.example.Dingle.property.dto.PropertyListDTO;
 import com.example.Dingle.property.entity.Property;
+import com.example.Dingle.property.entity.PropertyImage;
+import com.example.Dingle.property.repository.PropertyImageRepository;
 import com.example.Dingle.property.repository.PropertyRepository;
+import com.example.Dingle.property.type.ImageType;
 import com.example.Dingle.user.entity.SavedProperty;
 import com.example.Dingle.user.entity.User;
 import com.example.Dingle.user.repository.SavedPropertyRepository;
 import com.example.Dingle.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,11 +26,13 @@ public class PropertyListService {
     private final PropertyRepository propertyRepository;
     private final UserRepository userRepository;
     private final SavedPropertyRepository savedPropertyRepository;
+    private final PropertyImageRepository propertyImageRepository;
 
-    public PropertyListService(PropertyRepository propertyRepository, UserRepository userRepository, SavedPropertyRepository savedPropertyRepository) {
+    public PropertyListService(PropertyRepository propertyRepository, UserRepository userRepository, SavedPropertyRepository savedPropertyRepository, PropertyImageRepository propertyImageRepository) {
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
         this.savedPropertyRepository = savedPropertyRepository;
+        this.propertyImageRepository = propertyImageRepository;
     }
 
     public List<PropertyListDTO> getPropertyList(List<Long> propertyIds) {
@@ -40,12 +42,20 @@ public class PropertyListService {
         Map<Long, Property> propertyMap = properties.stream()
                 .collect(Collectors.toMap(Property::getId, p -> p));
 
+        List<PropertyImage> images = propertyImageRepository.findAllByProperty_IdInAndImageTypeOrderByProperty_IdAsc(propertyIds, ImageType.PROPERTY);
+        Map<Long, String> mainImage = new HashMap<>();
+        for(PropertyImage image : images) {
+            Long id = image.getProperty().getId();
+            mainImage.putIfAbsent(id, image.getImageUrl());
+        }
+
         return propertyIds.stream()
                 .map(propertyMap::get)
                 .filter(Objects::nonNull)
                 .map(p -> PropertyListDTO.builder()
                         .propertyId(p.getId())
                         .propertyType(p.getPropertyType())
+                        .imageUrl(mainImage.get(p.getId()))
                         .apartmentName(p.getApartmentName())
                         .exclusiveArea(p.getExclusiveArea())
                         .supplyArea(p.getSupplyArea())
@@ -62,19 +72,27 @@ public class PropertyListService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
 
-        List<SavedProperty> savedProperties = savedPropertyRepository.findAllByUserId(user.getId());
+        List<SavedProperty> savedProperties = savedPropertyRepository.findAllByUser_Id(user.getId());
 
         List<Long> propertyIds = savedProperties.stream()
-                .map(saved -> saved.getProperty().getId())
+                .map(saved -> saved.getProperty().getId() )
                 .toList();
 
         List<Property> properties = propertyRepository.findAllByIdInWithDetails(propertyIds);
+
+        List<PropertyImage> images = propertyImageRepository.findAllByProperty_IdInAndImageTypeOrderByProperty_IdAsc(propertyIds, ImageType.PROPERTY);
+        Map<Long, String> mainImage = new HashMap<>();
+        for(PropertyImage image : images) {
+            Long id = image.getProperty().getId();
+            mainImage.putIfAbsent(id, image.getImageUrl());
+        }
 
         return properties.stream()
                 .filter(Objects::nonNull)
                 .map(p -> PropertyListDTO.builder()
                         .propertyId(p.getId())
                         .propertyType(p.getPropertyType())
+                        .imageUrl(mainImage.get(p.getId()))
                         .apartmentName(p.getApartmentName())
                         .exclusiveArea(p.getExclusiveArea())
                         .supplyArea(p.getSupplyArea())
