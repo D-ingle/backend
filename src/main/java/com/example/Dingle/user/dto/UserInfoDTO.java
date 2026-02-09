@@ -15,6 +15,7 @@ import java.util.List;
 public class UserInfoDTO {
 
     private String userName;
+    private boolean onboardingStatus;
     private PropertyType propertyType;
     private List<Long> preferredConditions;
 
