@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class DestinationDTO {
     private String destinationName;
     private String destinationAddress;
+    private Double destLatitude;
+    private Double destLongitude;
 }
