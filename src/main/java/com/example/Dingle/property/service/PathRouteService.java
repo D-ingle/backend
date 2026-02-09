@@ -1,8 +1,10 @@
 package com.example.Dingle.property.service;
 
 import com.example.Dingle.global.client.KakaoMapClient;
+import com.example.Dingle.global.client.TmapClient;
 import com.example.Dingle.property.entity.Property;
-import com.example.Dingle.safety.dto.KakaoRouteResponse;
+import com.example.Dingle.safety.dto.TmapGeometry;
+import com.example.Dingle.safety.dto.TmapRouteResponse;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -17,43 +19,47 @@ import java.util.List;
 public class PathRouteService {
 
     private final KakaoMapClient kakaoMapClient;
+    private final TmapClient tmapClient;
 
     public String getPathWkt(Property property) {
 
         Coordinate station = kakaoMapClient.findNearestSubway(property.getLongitude(), property.getLatitude());
 
-        KakaoRouteResponse response =
-                kakaoMapClient.getWalkingRoute(
-                        station.x, station.y,
-                        property.getLongitude(),
-                        property.getLatitude()
-                );
+        TmapRouteResponse response = tmapClient.getWalkingRoute(
+                station.x, station.y,
+                property.getLongitude(), property.getLatitude()
+        );
 
         return toLineStringWkt(response);
     }
 
-    private String toLineStringWkt(KakaoRouteResponse response) {
+    private String toLineStringWkt(TmapRouteResponse response) {
 
-        List<Double> vertexes = new ArrayList<>();
+        List<Coordinate> coordinates = new ArrayList<>();
 
-        response.getRoutes().forEach(route ->
-                route.getSections().forEach(section ->
-                        section.getRoads().forEach(road ->
-                                vertexes.addAll(road.getVertexes())
-                        )
-                )
-        );
+        response.getFeatures().forEach(feature -> {
+
+            TmapGeometry geometry = feature.getGeometry();
+
+            if (!"LineString".equals(geometry.getType())) {
+                return;
+            }
+
+            @SuppressWarnings("unchecked")
+            List<List<Double>> lineCoords =
+                    (List<List<Double>>) geometry.getCoordinates();
+
+            lineCoords.forEach(coord -> {
+                coordinates.add(new Coordinate(
+                        coord.get(0),
+                        coord.get(1)
+                ));
+            });
+        });
 
         GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
-        Coordinate[] coords = new Coordinate[vertexes.size() / 2];
-
-        for (int i = 0; i < vertexes.size(); i += 2) {
-            coords[i / 2] = new Coordinate(
-                    vertexes.get(i),
-                    vertexes.get(i + 1)
-            );
-        }
-
-        return factory.createLineString(coords).toText();
+        return factory.createLineString(
+                coordinates.toArray(new Coordinate[0])
+        ).toText();
     }
 }

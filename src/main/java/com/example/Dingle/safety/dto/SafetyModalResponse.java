@@ -16,5 +16,7 @@ public class SafetyModalResponse {
     private int PathLightCount;
 
     private List<PoliceModalResponse> polices;
+    private boolean hasNearbyCrimeZone;
+    private List<CrimeAreaModalResponse> nearbyCrimeZones;
 
 }
