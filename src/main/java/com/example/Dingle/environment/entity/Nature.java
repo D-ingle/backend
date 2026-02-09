@@ -6,6 +6,7 @@ import com.example.Dingle.environment.type.NatureType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
@@ -32,4 +33,7 @@ public class Nature {
 
     @Column(nullable = false)
     private double longitude;
+
+    @Column(columnDefinition = "geometry(Point,4326)")
+    private Point geom;
 }
