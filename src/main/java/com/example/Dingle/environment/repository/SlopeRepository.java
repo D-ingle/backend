@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface SlopeRepository extends JpaRepository<Slope, Long> {
     Optional<Slope> findByPropertyId(Long propertyId);
+    Slope findByProperty_Id(Long propertyId);
 }

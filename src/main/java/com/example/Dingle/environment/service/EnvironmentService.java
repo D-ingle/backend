@@ -7,9 +7,11 @@ import com.example.Dingle.environment.dto.EnvironmentTotalRow;
 import com.example.Dingle.environment.dto.WasteFacilityLocationDTO;
 import com.example.Dingle.environment.entity.Environment;
 import com.example.Dingle.environment.entity.ParticulateMatter;
+import com.example.Dingle.environment.entity.Slope;
 import com.example.Dingle.environment.repository.EnvironmentRepository;
 import com.example.Dingle.environment.repository.NatureRepository;
 import com.example.Dingle.environment.repository.ParticulateMatterRepository;
+import com.example.Dingle.environment.repository.SlopeRepository;
 import com.example.Dingle.environment.type.EnvironmentType;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
@@ -33,9 +35,10 @@ public class EnvironmentService {
     private final PropertyScoreRepository propertyScoreRepository;
     private final NatureRepository natureRepository;
     private final ParticulateMatterRepository particulateMatterRepository;
+    private final SlopeRepository slopeRepository;
 
 
-    public EnvironmentService(DistrictRepository districtRepository, EnvironmentRepository environmentRepository, WasteService wasteService, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, NatureRepository natureRepository, ParticulateMatterRepository particulateMatterRepository) {
+    public EnvironmentService(DistrictRepository districtRepository, EnvironmentRepository environmentRepository, WasteService wasteService, PropertyRepository propertyRepository, PropertyScoreRepository propertyScoreRepository, NatureRepository natureRepository, ParticulateMatterRepository particulateMatterRepository, SlopeRepository slopeRepository) {
         this.districtRepository = districtRepository;
         this.environmentRepository = environmentRepository;
         this.wasteService = wasteService;
@@ -43,6 +46,7 @@ public class EnvironmentService {
         this.propertyScoreRepository = propertyScoreRepository;
         this.natureRepository = natureRepository;
         this.particulateMatterRepository = particulateMatterRepository;
+        this.slopeRepository = slopeRepository;
     }
 
     @Transactional
@@ -76,6 +80,13 @@ public class EnvironmentService {
 
         PropertyScore propertyScore = propertyScoreRepository.findByPropertyId(propertyId)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_SCORE_NOT_FOUND));
+
+        Slope slope = slopeRepository.findByProperty_Id(propertyId);
+
+        EnvironmentTotalDTO.Slope slopeDTO = EnvironmentTotalDTO.Slope.builder()
+                .internalValue(slope.getInternalValue())
+                .neighboringValue(slope.getNeighboringValue())
+                .build();
 
         int score = propertyScore.getEnvironmentScore();
 
@@ -111,6 +122,7 @@ public class EnvironmentService {
                 .enabled(true)
                 .environmentScore(score)
                 .radiusMeters(distance)
+                .slope(slopeDTO)
                 .items(items)
                 .particulateMatter(pm)
                 .build();
