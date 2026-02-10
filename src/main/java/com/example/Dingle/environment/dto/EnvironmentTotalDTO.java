@@ -17,8 +17,18 @@ public class EnvironmentTotalDTO {
     private boolean enabled;
     private Integer environmentScore;
     private int radiusMeters;
+    private Slope slope;
     private List<Item> items;
     private ParticulateMatter particulateMatter;
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Slope {
+        private double internalValue;
+        private double neighboringValue;
+    }
 
     @Getter
     @Builder
