@@ -25,6 +25,8 @@ public class TrafficResponseDTO {
     public static class Bus{
         private TrafficType trafficType;
         private String name;
+        private Double latitude;
+        private Double longitude;
         private List<String> busNumber;
         private int distance;
     }
@@ -36,6 +38,8 @@ public class TrafficResponseDTO {
     public static class Subway{
         private TrafficType trafficType;
         private String name;
+        private Double latitude;
+        private Double longitude;
         private int distance;
     }
 }

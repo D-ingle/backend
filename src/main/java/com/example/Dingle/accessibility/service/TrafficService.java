@@ -62,9 +62,13 @@ public class TrafficService {
                             .min(Integer::compareTo)
                             .orElse(null);
 
+                    Traffic base = rows.get(0);
+
                     return TrafficResponseDTO.Bus.builder()
                             .trafficType(TrafficType.BUS)
                             .name(busStopName)
+                            .latitude(base.getLatitude())
+                            .longitude(base.getLongitude())
                             .busNumber(busNumbers)
                             .distance(distance)
                             .build();
@@ -82,6 +86,8 @@ public class TrafficService {
                 .map(t -> TrafficResponseDTO.Subway.builder()
                         .trafficType(TrafficType.SUBWAY)
                         .name(t.getTrafficName())
+                        .latitude(t.getLatitude())
+                        .longitude(t.getLongitude())
                         .distance(t.getDistance())
                         .build())
                 .sorted(Comparator.comparing(
