@@ -116,15 +116,6 @@ public class PropertyListService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorMessage.USER_NOT_EXIST));
 
-        List<Long> savedIds = savedPropertyRepository.findAllByUserIdAndPropertyIdIn(user.getId(), propertyIds)
-                .stream()
-                .map(saved -> saved.getProperty().getId())
-                .toList();
-
-        if(savedIds.size() != propertyIds.size()){
-            throw new BusinessException(BusinessErrorMessage.FORBIDDEN_PROPERTY_COMPARE);
-        }
-
         List<Property> properties = propertyRepository.findAllByIdInWithScore(propertyIds);
 
         Map<Long, Property> propertyMap = properties.stream()
