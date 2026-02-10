@@ -12,11 +12,11 @@ import java.util.List;
 public class SafetyModalResponse {
 
     private boolean isPassedCrimeZone;
-    private int PathCctvCount;
-    private int PathLightCount;
+    private int pathCctvCount;
+    private int pathLightCount;
 
     private List<PoliceModalResponse> polices;
-    private boolean hasNearbyCrimeZone;
-    private List<CrimeAreaModalResponse> nearbyCrimeZones;
+    private boolean nearByCrimeZones;
+    private List<String> nearbyCrimeZoneGeoJsons;
 
 }

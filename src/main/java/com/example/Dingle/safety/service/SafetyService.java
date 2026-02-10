@@ -73,31 +73,16 @@ public class SafetyService {
         boolean isPassedCrimeZone = propertyPathSafetyItem.getCrimeProneArea() > 0;
 
         List<PoliceModalResponse> polices = policeOfficeRepository.findNearbyPolices(property.getLatitude(), property.getLongitude());
-
-        List<Object[]> rows = pathSafetyRepository.findCrimeAreasWithinRadiusGeoJson(
-                        property.getLatitude(),
-                        property.getLongitude()
-                );
-
-        List<CrimeAreaModalResponse> nearbyCrimeZones =
-                rows.stream()
-                        .map(r -> new CrimeAreaModalResponse(
-                                ((Number) r[0]).longValue(),
-                                (String) r[1],
-                                ((Number) r[2]).intValue(),
-                                (String) r[3]
-                        ))
-                        .toList();
-
-        boolean hasNearbyCrimeZone = !nearbyCrimeZones.isEmpty();
+        List<String> nearbyCrimeZoneGeoJsons = pathSafetyRepository.findCrimeZonesNearPropertyGeoJson(property.getLatitude(), property.getLongitude());
+        boolean nearByCrimeZones = !nearbyCrimeZoneGeoJsons.isEmpty();
 
         return new SafetyModalResponse(
                 isPassedCrimeZone,
                 propertyPathSafetyItem.getCctv(),
                 propertyPathSafetyItem.getSafetyLight(),
                 polices,
-                hasNearbyCrimeZone,
-                nearbyCrimeZones
+                nearByCrimeZones,
+                nearbyCrimeZoneGeoJsons
         );
     }
 

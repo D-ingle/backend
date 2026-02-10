@@ -24,9 +24,9 @@ public interface CrimeProneAreaRepository extends JpaRepository<CrimeProneArea, 
             :crimeType,
             :riskLevel,
             ST_SetSRID(
-                 ST_GeomFromText(:wkt),
-                 5179
-             )
+                ST_GeomFromText(:wkt),
+                5179
+            )
         )
         """, nativeQuery = true)
     void insertNative(
