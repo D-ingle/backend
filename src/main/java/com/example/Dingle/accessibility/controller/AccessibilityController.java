@@ -3,6 +3,7 @@ package com.example.Dingle.accessibility.controller;
 import com.example.Dingle.accessibility.dto.TrafficResponseDTO;
 import com.example.Dingle.accessibility.service.TrafficService;
 import com.example.Dingle.global.dto.ResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class AccessibilityController {
     }
 
     @GetMapping("")
+    @Operation(summary = "편의성 종합 점수 API", description = "편의성 종합 점수를 제공합니다.")
     public ResponseEntity<ResponseDTO<TrafficResponseDTO>> getTraffic(@RequestParam Long propertyId) {
 
         TrafficResponseDTO response = trafficService.getTrafficData(propertyId);

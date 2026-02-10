@@ -22,6 +22,7 @@ public class EnvironmentController {
     }
 
     @GetMapping("/total")
+    @Operation(summary = "환경 종합 점수 API", description = "환경 종합 점수를 제공합니다.")
     public ResponseEntity<ResponseDTO<EnvironmentTotalDTO>> getEnvironmentTotal(@RequestParam("propertyId") Long propertyId, @RequestParam("distance") int distance) {
         EnvironmentTotalDTO response = environmentService.getEnvironmentTotal(propertyId, distance);
         return ResponseEntity.ok(ResponseDTO.success(response));

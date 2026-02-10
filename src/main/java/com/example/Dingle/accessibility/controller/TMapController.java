@@ -4,6 +4,7 @@ import com.example.Dingle.accessibility.dto.TMapArriveDTO;
 import com.example.Dingle.accessibility.service.TMapPredictionClientService;
 import com.example.Dingle.global.dto.ResponseDTO;
 import com.example.Dingle.user.dto.CustomUserDetails;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class TMapController {
     }
 
     @GetMapping("")
+    @Operation(summary = "주요 목적지 소요시간 API", description = "주요 목적지 소요시간을 제공합니다.")
     public ResponseEntity<ResponseDTO<TMapArriveDTO>> getTMapPrediction(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam Long propertyId,

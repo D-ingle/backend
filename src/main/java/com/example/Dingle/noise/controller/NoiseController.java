@@ -8,6 +8,7 @@ import com.example.Dingle.noise.service.NoiseScoreService;
 import com.example.Dingle.noise.service.SaveService;
 import com.example.Dingle.noise.service.noise.NoiseService;
 import com.example.Dingle.noise.service.population.FloatingPopulationService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,12 +54,14 @@ public class NoiseController {
     public void saveEmergencyCenterInfra() { saveService.saveEmergencyCenter(); }
 
     @GetMapping("/nearby")
+    @Operation(summary = "소음 종합 점수 API", description = "소음 종합 점수를 제공합니다.")
     public ResponseEntity<ResponseDTO<NearbyNoiseDTO>> getNearbyNoise(@RequestParam("propertyId") Long propertyId, @RequestParam("distance") int distance) {
         NearbyNoiseDTO response = noiseScoreService.getNearbyNoise(propertyId, distance);
         return ResponseEntity.ok(ResponseDTO.success(response));
     }
 
     @GetMapping("/smartpole")
+    @Operation(summary = "시간대별 소음, 유동인구 API", description = "시간대별 소음, 유동인구를 제공합니다.")
     public ResponseEntity<ResponseDTO<SmartPoleResponseDTO>> getSmartPole(@ModelAttribute SmartPoleRequestDTO request) {
         SmartPoleResponseDTO response = noiseScoreService.getSmartPole(
                 request.getPropertyId(),
