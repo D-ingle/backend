@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.locationtech.jts.geom.Point;
 
 @Entity
@@ -42,6 +44,7 @@ public class Infra {
     private String hospitalType;
 
     @Column(columnDefinition = "geometry(Point,4326)")
+    @JdbcTypeCode(SqlTypes.GEOMETRY)
     private Point geom;
 
     public Infra(
