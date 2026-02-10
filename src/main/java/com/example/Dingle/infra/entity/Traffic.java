@@ -32,4 +32,7 @@ public class Traffic {
 
     @Column(nullable = false)
     private int distance;
+
+    private Double latitude;
+    private Double longitude;
 }
