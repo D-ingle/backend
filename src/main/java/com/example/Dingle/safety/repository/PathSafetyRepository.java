@@ -170,26 +170,27 @@ public class PathSafetyRepository {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Object[]> findCrimeAreasWithinRadiusGeoJson(double lat, double lng) {
+    public List<String> findCrimeZonesNearPropertyGeoJson(double lat, double lon) {
 
         String sql = """
-            SELECT 1
-               FROM crime_prone_area c
-               WHERE ST_Intersects(
-                 c.geometry,
-                 ST_Buffer(
-                   ST_Transform(
-                     ST_SetSRID(ST_MakePoint(?2, ?1), 4326),
-                     5179
-                   ),
-                   200000
+            SELECT DISTINCT
+                 ST_AsGeoJSON(
+                     ST_Transform(c.geometry, 4326)
                  )
-               )
+             FROM crime_prone_area c
+             WHERE ST_DWithin(
+                 ST_Transform(c.geometry, 5179),
+                 ST_Transform(
+                     ST_SetSRID(ST_MakePoint(?1, ?2), 4326),
+                     5179
+                 ),
+                 300
+             );
         """;
 
         return em.createNativeQuery(sql)
-                .setParameter(1, lat)
-                .setParameter(2, lng)
+                .setParameter(1, lon)
+                .setParameter(2, lat)
                 .getResultList();
     }
 }
