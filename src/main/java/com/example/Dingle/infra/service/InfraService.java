@@ -21,6 +21,8 @@ import com.example.Dingle.property.repository.PropertyRepository;
 import com.example.Dingle.property.repository.PropertyScoreRepository;
 import com.example.Dingle.safety.entity.Safety;
 import com.example.Dingle.safety.repository.SafetyRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,26 +42,45 @@ public class InfraService {
     private final SafetyRepository safetyRepository;
     private final PropertyRepository propertyRepository;
     private final PropertyScoreRepository propertyScoreRepository;
+    private final CctvDbWriter cctvDbWriter;
 
-    @Transactional
+    private static final int PAGE_SIZE = 1000;
+
     public void saveCctvInfra(String districtName) {
 
         District district = districtRepository.findByDistrictName(districtName)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
 
-        List<CctvLocationDTO> cctvLocations = cctvService.getCctvLocations(districtName);
+        cctvDbWriter.deleteExisting(district.getId());
 
-        List<Safety> infraList = cctvLocations.stream()
-                .map(dto -> new Safety(
-                        district,
-                        InfraType.CCTV,
-                        dto.getLatitude(),
-                        dto.getLongitude()
-                ))
-                .toList();
+        cctvService.streamCctvLocations(districtName, PAGE_SIZE, rows -> {
+            List<Safety> batch = rows.stream()
+                    .map(r -> new Safety(district, InfraType.CCTV, r.getLatitude(), r.getLongitude()))
+                    .toList();
 
-        safetyRepository.saveAll(infraList);
+            cctvDbWriter.saveChunk(batch);
+        });
     }
+
+//    @Transactional
+//    public void saveCctvInfra(String districtName) {
+//
+//        District district = districtRepository.findByDistrictName(districtName)
+//                .orElseThrow(() -> new BusinessException(BusinessErrorMessage.DISTRICT_NOT_EXISTS));
+//
+//        List<CctvLocationDTO> cctvLocations = cctvService.getCctvLocations(districtName);
+//
+//        List<Safety> infraList = cctvLocations.stream()
+//                .map(dto -> new Safety(
+//                        district,
+//                        InfraType.CCTV,
+//                        dto.getLatitude(),
+//                        dto.getLongitude()
+//                ))
+//                .toList();
+//
+//        safetyRepository.saveAll(infraList);
+//    }
 
     @Transactional
     public void saveMarketInfra(String districtName) {
