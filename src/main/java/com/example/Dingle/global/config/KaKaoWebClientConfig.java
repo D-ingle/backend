@@ -10,10 +10,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class KaKaoWebClientConfig {
 
+//    @Value("${kakao.base-url}") String baseUrl
     @Bean
-    public WebClient kaKaoWebClient(@Value("${kakao.base-url}") String baseUrl, @Value("${kakao.api-key}") String apiKey) {
+    public WebClient kaKaoWebClient(@Value("${kakao.api-key}") String apiKey) {
         return WebClient.builder()
-                .baseUrl(baseUrl)
+//                .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "KakaoAK " + apiKey)
                 .build();
     }

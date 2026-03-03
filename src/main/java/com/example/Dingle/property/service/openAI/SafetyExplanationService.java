@@ -2,10 +2,8 @@ package com.example.Dingle.property.service.openAI;
 
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
-import com.example.Dingle.property.dto.openAI.SafetyEvaluationResult;
 import com.example.Dingle.property.dto.openAI.SafetyExplanationPrompt;
 import com.example.Dingle.property.entity.Property;
-import com.example.Dingle.property.entity.PropertyDescription;
 import com.example.Dingle.property.entity.PropertyScore;
 import com.example.Dingle.property.repository.PropertyDescriptionRepository;
 import com.example.Dingle.property.repository.PropertyRepository;
@@ -102,38 +100,5 @@ public class SafetyExplanationService {
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_SCORE_NOT_FOUND));
 
         score.updateSafetyScore(finalSafetyScore);
-
-        // AI 요약
-        SafetyEvaluationResult result = SafetyEvaluationResult.builder()
-                        .safetyScore(finalSafetyScore)
-                        .home(SafetyEvaluationResult.Home.builder()
-                                .crimeScore(crimeScoreHome)
-                                .policeScore(policeScore)
-                                .infraScore(infraScoreHome)
-                                .score(homeSafetyScore)
-                                .build())
-                        .path(SafetyEvaluationResult.Path.builder()
-                                .crimeCount(crimeCount)
-                                .cctvCount(cctvCount)
-                                .safetyLightCount(lightCount)
-                                .score(pathSafetyScore)
-                                .build())
-                        .build();
-
-        String json;
-        try {
-            json = objectMapper.writeValueAsString(result);
-        } catch (Exception e) {
-            throw new RuntimeException("SafetyEvaluationResult serialization failed", e);
-        }
-
-        String explanation = openAiClient.generate(
-                prompt.build(result, json)
-        );
-
-        PropertyDescription description = propertyDescriptionRepository.findByPropertyId(propertyId)
-                        .orElseThrow(() -> new BusinessException(BusinessErrorMessage.PROPERTY_EXPLANATION_NOT_EXISTS));
-
-        description.updateSafetyDescription(explanation);
     }
 }
