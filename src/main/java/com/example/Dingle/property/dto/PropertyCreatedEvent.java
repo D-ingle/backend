@@ -1,0 +1,16 @@
+package com.example.Dingle.property.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PropertyCreatedEvent {
+
+    private Long propertyId;
+    private LocalDate createdAt;
+}
