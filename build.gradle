@@ -60,6 +60,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation "org.hibernate.orm:hibernate-spatial:6.6.39.Final"
 
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
 }
 
 tasks.withType(JavaCompile) {

@@ -5,6 +5,7 @@ import com.example.Dingle.district.repository.DistrictRepository;
 import com.example.Dingle.global.exception.BusinessException;
 import com.example.Dingle.global.message.BusinessErrorMessage;
 import com.example.Dingle.property.dto.DealRequestDTO;
+import com.example.Dingle.property.dto.PropertyCreatedEvent;
 import com.example.Dingle.property.dto.PropertyRegisterRequestDTO;
 import com.example.Dingle.property.entity.*;
 import com.example.Dingle.property.repository.*;
@@ -14,9 +15,11 @@ import com.example.Dingle.property.type.OptionType;
 import com.example.Dingle.realtor.entity.Realtor;
 import com.example.Dingle.realtor.repository.RealtorRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -32,9 +35,10 @@ public class PropertyService {
     private final RealtorRepository realtorRepository;
     private final DistrictRepository districtRepository;
     private final PropertyImageRepository propertyImageRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
-    public void register(PropertyRegisterRequestDTO request) {
+    public Long register(PropertyRegisterRequestDTO request) {
 
         Realtor realtor = realtorRepository.findById(1L)
                 .orElseThrow(() -> new BusinessException(BusinessErrorMessage.REALTOR_NOT_EXISTS));
@@ -65,6 +69,10 @@ public class PropertyService {
         saveOptions(property, request.getOptions());
         saveFacilities(property, request.getFacilities());
         saveImages(property, request);
+
+        applicationEventPublisher.publishEvent(new PropertyCreatedEvent(property.getId(), LocalDate.now()));
+
+        return property.getId();
     }
 
     private void saveDeal(Property property, DealRequestDTO deal) {

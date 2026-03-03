@@ -2,6 +2,7 @@ package com.example.Dingle.property.controller;
 
 import com.example.Dingle.global.dto.ResponseDTO;
 import com.example.Dingle.property.dto.PropertyCompareDTO;
+import com.example.Dingle.property.dto.PropertyCreatedEvent;
 import com.example.Dingle.property.dto.PropertyListDTO;
 import com.example.Dingle.property.dto.PropertyRegisterRequestDTO;
 import com.example.Dingle.property.service.PropertyListService;
@@ -9,10 +10,12 @@ import com.example.Dingle.property.service.PropertyService;
 import com.example.Dingle.user.dto.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController

@@ -25,6 +25,19 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # AMQP
+      - "15672:15672"  # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    restart: unless-stopped
+
   app:
     build: .
     image: dingle-app
@@ -40,3 +53,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_URL}:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+
+volumes:
+  rabbitmq-data:
